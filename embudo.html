@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline de Proyectos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: #f4f4f9;
+        }
+        /* Navbar */
+        .navbar-brand img {
+            height: 100px; /* Tamaño del logo aumentado */
+            margin-right: 10px;
+        }
+        .navbar-nav {
+            margin: auto; /* Centraliza los ítems del navbar */
+        }
+        
+        .navbar {
+            z-index: 10;
+            display: flex;
+            justify-content: center; /* Centra todo el contenido del navbar */
+            text-align: center;
+            padding: 10px 20px; /* Ajusta el espaciado del navbar */
+        }
+        .navbar-nav a:hover {
+            background: #0056b3;
+           
+        }
+        .content {
+            padding: 80px 20px;
+            display: flex; /* Usar flexbox para centrar */
+            flex-direction: column; /* Colocar título y embudo en una columna */
+            align-items: center; /* Centrar horizontalmente */
+            justify-content: center; /* Centrar verticalmente */
+            min-height: calc(100vh - 80px); /* Asegurar que ocupe toda la altura visible menos el navbar */
+            text-align: center;
+        }
+        .content h1 {
+            margin-bottom: 20px; /* Espaciado entre el título y el embudo */
+        }
+
+        /* Estilos del embudo */
+        .embudo {
+            width: 60%;
+            max-width: 600px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        .etapa {
+            padding: 20px;
+            margin: 5px 0;
+            font-size: 18px;
+            color: white;
+            background-color: #007bff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            border: 1px solid #0056b3;
+            position: relative;
+        }
+        #pensados { background-color: #6c757d; }
+        #formulacion { background-color: #17a2b8; }
+        #formulados { background-color: #ffc107; }
+        #radicados { background-color: #28a745; }
+        #ejecucion { background-color: #dc3545; }
+        .etapa:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .contenido {
+            display: none;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+        }
+        .contenido.mostrar {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .navbar-brand img {
+            height: 100px; /* Tamaño del logo aumentado */
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="/index.html">
+                <img src="assets/img/LOGO OFICIAL ALCALDÍA DE COPACABANA-02-modificado.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="embudo.html">Seguimiento Proyectos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="timeLine.html">TimeLine Proyectos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content">
+        <h1>Seguimiento a Proyectos</h1>
+        <p>Selecciona para ver el estado de los proyectos <b>"Somos un Nuevo Aire 2024-2027"</b></p>
+        <div class="embudo">
+            <div class="etapa" id="pensados">
+                Pensados
+                <div class="contenido">
+                    Proyectos que están en fase inicial de planeación, donde se están identificando ideas y necesidades.
+                    <br>
+                    <br>
+                    <a href="ProyectosPensados.html" style="color: #007BFF; text-decoration: none; font-weight: bold;">Conócelos</a>
+                </div>
+            </div>
+            <div class="etapa" id="formulacion">
+                En Formulación
+                <div class="contenido">
+                    Los proyectos en esta etapa están siendo estructurados con objetivos, recursos y estrategias definidos.
+                </div>
+            </div>
+            <div class="etapa" id="formulados">
+                Formulados
+                <br>
+                <div class="contenido">
+                    Proyectos que ya cuentan con toda la documentación necesaria y están presentados ante la entidad.
+                    <br>
+                    <br>
+                    <a href="formulados.html"   style="color: #007BFF; text-decoration: none; font-weight: bold;">Conócelos</a>
+                </div>
+            </div>
+            <div class="etapa" id="radicados">
+                Radicados
+                <div class="contenido">
+                    En esta etapa, los proyectos han sido presentados formalmente y están esperando aprobación.
+                    <br>
+                    <br>
+                    <a href="radicados.html"   style="color: #007BFF; text-decoration: none; font-weight: bold;">Conócelos</a>
+
+                </div>
+            </div>
+            <div class="etapa" id="ejecucion">
+                En Ejecución
+                <div class="contenido">
+                    Los proyectos en esta fase ya están siendo implementados y en seguimiento continuo.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const etapas = document.querySelectorAll('.etapa');
+
+        etapas.forEach(etapa => {
+            etapa.addEventListener('click', () => {
+                const contenido = etapa.querySelector('.contenido');
+                contenido.classList.toggle('mostrar');
+                etapas.forEach(e => {
+                    if (e !== etapa) {
+                        const otroContenido = e.querySelector('.contenido');
+                        otroContenido.classList.remove('mostrar');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
