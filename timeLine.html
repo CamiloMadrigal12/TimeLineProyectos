@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline de Proyectos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        
+
+        .content {
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
+            text-align: center;
+        }
+
+        .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin: 10px 0;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .navbar-brand img {
+            height: 100px; /* Tamaño del logo aumentado */
+            margin-right: 10px;
+        }
+        .navbar-nav {
+            margin: auto; /* Centraliza los ítems del navbar */
+        }
+        
+        .navbar {
+            z-index: 10;
+            display: flex;
+            justify-content: center; /* Centra todo el contenido del navbar */
+            text-align: center;
+            padding: 10px 20px; /* Ajusta el espaciado del navbar */
+        }
+        .navbar-nav a:hover {
+            background: #0056b3;
+           
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="assets/img/LOGO OFICIAL ALCALDÍA DE COPACABANA-02-modificado.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="embudo.html">Seguimiento Proyectos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="timeLine.html">TimeLine Proyectos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Content -->
+    <div class="content">
+        <h1>Proyectos Destacados</h1>
+        <p>Explora los proyectos más relevantes en cada etapa</p>
+
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                <!-- Card 1 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="assets/img/Proyectos/Mobiliario JoseMiguel/mobiliario1.jpeg" alt="Imagen del Proyecto 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Mobiliario Jose Miguel</h5>
+                            <p class="card-text">Entrega de dotación mobiliaria para el colegio Jose Miguel</p>
+                            <a href="Dependencias/Planeacion.html" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 2</h5>
+                            <p class="card-text">Descripción breve del proyecto 2.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 3</h5>
+                            <p class="card-text">Descripción breve del proyecto 3.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 4">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 4</h5>
+                            <p class="card-text">Descripción breve del proyecto 4.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 5">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 5</h5>
+                            <p class="card-text">Descripción breve del proyecto 5.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 6">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 6</h5>
+                            <p class="card-text">Descripción breve del proyecto 6.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 7">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 7</h5>
+                            <p class="card-text">Descripción breve del proyecto 7.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 8">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 8</h5>
+                            <p class="card-text">Descripción breve del proyecto 8.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 9 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 9">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 9</h5>
+                            <p class="card-text">Descripción breve del proyecto 9.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 10 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 10">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 10</h5>
+                            <p class="card-text">Descripción breve del proyecto 10.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 11 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 11">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 11</h5>
+                            <p class="card-text">Descripción breve del proyecto 11.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 12 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 12">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 12</h5>
+                            <p class="card-text">Descripción breve del proyecto 12.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 13 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 13">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 13</h5>
+                            <p class="card-text">Descripción breve del proyecto 13.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 14 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 14">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 14</h5>
+                            <p class="card-text">Descripción breve del proyecto 14.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 15 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 15">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 15</h5>
+                            <p class="card-text">Descripción breve del proyecto 15.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 16 -->
+                <div class="col">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300x200" alt="Imagen del Proyecto 16">
+                        <div class="card-body">
+                            <h5 class="card-title">Proyecto 16</h5>
+                            <p class="card-text">Descripción breve del proyecto 16.</p>
+                            <a href="#" class="btn btn-primary">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
