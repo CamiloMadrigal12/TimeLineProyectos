@@ -3,46 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navbar y Tarjetas Responsivas</title>
+    <title>DAP</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   
+    <!-- Navbar -->
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
         }
-
+    
         .navbar-brand img {
             height: 80px; /* Tamaño del logo ajustado para dispositivos móviles */
         }
-
+    
         .navbar {
             padding: 10px 20px; /* Ajusta el espaciado */
         }
-
+    
         .navbar-nav {
             text-align: center;
         }
-
+    
         .card img {
             width: 100%;
             height: 250px; /* Ajusta el tamaño de la imagen */
             object-fit: cover;
         }
-
+    
         @media (max-width: 768px) {
             .navbar-brand img {
                 height: 60px; /* Reduce el tamaño del logo en pantallas pequeñas */
             }
-
+    
             .card img {
                 height: 200px; /* Reduce la altura de las imágenes en pantallas pequeñas */
             }
         }
     </style>
-</head>
-<body>
-    <!-- Navbar -->
+    </head>
+    <body>
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="index.html">
