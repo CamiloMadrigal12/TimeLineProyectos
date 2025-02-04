@@ -10,11 +10,11 @@
         /* Estilos generales */
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
-            background-color: #f4f4f9;
         }
 
         /* Navbar */
@@ -23,20 +23,10 @@
             margin-right: 10px;
         }
 
-        .navbar-nav {
-            margin: auto;
-        }
-
         .navbar {
-            z-index: 10;
             display: flex;
             justify-content: center;
-            text-align: center;
             padding: 10px 20px;
-        }
-
-        .navbar-nav a:hover {
-            background: #0056b3;
         }
 
         /* Contenido */
@@ -50,11 +40,6 @@
             text-align: center;
         }
 
-        .content h1 {
-            margin-bottom: 40px;
-        }
-
-        /* Título del Diagrama de Procesos */
         .title {
             font-size: 24px;
             font-weight: bold;
@@ -74,16 +59,17 @@
         }
 
         .timeline::before {
-    content: '';
-    position: absolute;
-    top: 31%; /* Ajusta la posición de la línea hacia arriba */
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: #0078d4;
-    transform: translateY(-50%);
-    z-index: 1;
-}
+            content: '';
+            position: absolute;
+            top: 31%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #0078d4;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
         .timeline-step {
             position: relative;
             flex: 1;
@@ -94,18 +80,24 @@
             padding: 0 10px;
         }
 
+        /* Bolita azul por defecto */
         .timeline-step .dot {
-            position: relative;
             width: 15px;
             height: 15px;
-            background: #0078d4;
+            background: #0078d4; /* Azul */
             border: 3px solid #fff;
             border-radius: 50%;
             z-index: 2;
         }
 
+        /* Bolita azul cuando el paso está completado pero sin check */
         .timeline-step.completed .dot {
-            background: #28a745;
+            background: #0078d4; /* Azul */
+        }
+
+        /* Bolita verde cuando el paso tiene check */
+        .timeline-step.checked .dot {
+            background: #0078d4; /* Verde */
         }
 
         .checkmark {
@@ -117,14 +109,12 @@
 
         .timeline-step h3 {
             font-size: 16px;
-            margin-top: 15px; /* Añadido más espacio entre el punto y el texto */
+            margin-top: 15px;
         }
 
-        /* Alineación de las fases */
         .timeline-step .dot {
-            margin-bottom: 10px; /* Espacio debajo del punto */
+            margin-bottom: 10px;
         }
-
     </style>
 </head>
 <body>
@@ -133,7 +123,6 @@
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="../index.html">
                 <img src="../assets/img/LOGO OFICIAL ALCALDÍA DE COPACABANA-02-modificado.png" alt="Logo">
-                
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -157,55 +146,54 @@
         </div>
     </nav>
 
-    <!-- Content -->
+    <!-- Contenido -->
     <div class="content">
-        <!-- Título del Diagrama de Procesos -->
         <div class="title">Diagrama de Procesos</div>
-        
+
         <div class="timeline">
-            <!-- Fase 1 -->
-            <div class="timeline-step completed">
+            <!-- Fase 1 (Completada con Check) -->
+            <div class="timeline-step completed checked">
                 <div class="dot"></div>
                 <h3>Diagnóstico <span class="checkmark">✔</span></h3>
             </div>
 
-            <!-- Fase 2 -->
+            <!-- Fase 2 (Completada pero sin Check) -->
             <div class="timeline-step completed">
                 <div class="dot"></div>
-                <h3>Planteamiento Problema <span class="checkmark">✔</span></h3>
+                <h3>Planteamiento Problema</h3>
             </div>
 
-            <!-- Fase 3 -->
-            <div class="timeline-step completed">
+            <!-- Fase 3 (Completada con Check) -->
+            <div class="timeline-step completed checked">
                 <div class="dot"></div>
-                <h3>Alternativas de Solución <span class="checkmark">✔</span></h3>
+                <h3>Alternativas de Solución </h3>
             </div>
 
-            <!-- Fase 4 -->
-            <div class="timeline-step completed">
+            <!-- Fase 4 (Completada con Check) -->
+            <div class="timeline-step completed checked">
                 <div class="dot"></div>
-                <h3>Listado de Requisitos <span class="checkmark">✔</span></h3>
+                <h3>Listado de Requisitos </h3>
             </div>
 
-            <!-- Fase 5 -->
+            <!-- Fase 5 (Pendiente - Azul) -->
             <div class="timeline-step">
                 <div class="dot"></div>
                 <h3>Estudios y Documentación</h3>
             </div>
 
-            <!-- Fase 6 -->
+            <!-- Fase 6 (Pendiente - Azul) -->
             <div class="timeline-step">
                 <div class="dot"></div>
                 <h3>Costos</h3>
             </div>
 
-            <!-- Fase 7 -->
+            <!-- Fase 7 (Pendiente - Azul) -->
             <div class="timeline-step">
                 <div class="dot"></div>
                 <h3>Certificados y Firmas</h3>
             </div>
 
-            <!-- Fase 8 -->
+            <!-- Fase 8 (Pendiente - Azul) -->
             <div class="timeline-step">
                 <div class="dot"></div>
                 <h3>Radicación</h3>

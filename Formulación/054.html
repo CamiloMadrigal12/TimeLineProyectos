@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAP</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar-brand img {
+            height: 100px;
+            margin-right: 10px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            padding: 10px 20px;
+        }
+
+        /* Contenido */
+        .content {
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
+            text-align: center;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Línea Temporal */
+        .timeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            max-width: 1000px;
+            position: relative;
+            margin-top: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 31%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #0078d4;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .timeline-step {
+            position: relative;
+            flex: 1;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        /* Bolita azul por defecto */
+        .timeline-step .dot {
+            width: 15px;
+            height: 15px;
+            background: #0078d4; /* Azul */
+            border: 3px solid #fff;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        /* Bolita azul cuando el paso está completado pero sin check */
+        .timeline-step.completed .dot {
+            background: #0078d4; /* Azul */
+        }
+
+        /* Bolita verde cuando el paso tiene check */
+        .timeline-step.checked .dot {
+            background: #0078d4; /* Verde */
+        }
+
+        .checkmark {
+            display: inline-block;
+            margin-top: 10px;
+            color: #28a745;
+            font-size: 18px;
+        }
+
+        .timeline-step h3 {
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        .timeline-step .dot {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                <img src="../assets/img/LOGO OFICIAL ALCALDÍA DE COPACABANA-02-modificado.png" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../embudo.html">Seguimiento Proyectos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../timeLine.html">TimeLine Proyectos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="planDesarrollo.html">Plan de Desarrollo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido -->
+    <div class="content">
+        <div class="title">Diagrama de Procesos</div>
+
+        <div class="timeline">
+            <!-- Fase 1 (Completada con Check) -->
+            <div class="timeline-step completed checked">
+                <div class="dot"></div>
+                <h3>Diagnóstico <span class="checkmark">✔</span></h3>
+            </div>
+
+            <!-- Fase 2 (Completada pero sin Check) -->
+            <div class="timeline-step completed">
+                <div class="dot"></div>
+                <h3>Planteamiento Problema <span class="checkmark">✔</span></h3>
+            </div>
+
+            <!-- Fase 3 (Completada con Check) -->
+            <div class="timeline-step completed checked">
+                <div class="dot"></div>
+                <h3>Alternativas de Solución  </h3>
+            </div>
+
+            <!-- Fase 4 (Completada con Check) -->
+            <div class="timeline-step completed checked">
+                <div class="dot"></div>
+                <h3>Listado de Requisitos </h3>
+            </div>
+
+            <!-- Fase 5 (Pendiente - Azul) -->
+            <div class="timeline-step">
+                <div class="dot"></div>
+                <h3>Estudios y Documentación</h3>
+            </div>
+
+            <!-- Fase 6 (Pendiente - Azul) -->
+            <div class="timeline-step">
+                <div class="dot"></div>
+                <h3>Costos</h3>
+            </div>
+
+            <!-- Fase 7 (Pendiente - Azul) -->
+            <div class="timeline-step">
+                <div class="dot"></div>
+                <h3>Certificados y Firmas</h3>
+            </div>
+
+            <!-- Fase 8 (Pendiente - Azul) -->
+            <div class="timeline-step">
+                <div class="dot"></div>
+                <h3>Radicación</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
