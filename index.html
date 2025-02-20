@@ -74,16 +74,24 @@
     <!-- Script para cargar el header -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            let repoName = "/TimeLineProyectos"; // Nombre del repositorio en GitHub Pages
             let path = window.location.pathname;
-            let repoName = "/TimeLineProyectos"; // Ajusta según el nombre de tu repositorio
+    
+            // Ajusta el path para eliminar el nombre del repo y obtener la ruta real del archivo
             let relativePath = path.startsWith(repoName) ? path.replace(repoName, "") : path;
-            
-            let rootPages = ["/", "/index.html", "/embudo.html", "/formulacion.html", "/formulados.html", "/mapa.html", "/pilares.html", "/planDesarrollo.html", "/ProyectosPensados.html", "/radicados.html", "/timeLine.html", "/pilares.html"];
+    
+            // Páginas que están en la raíz del proyecto
+            let rootPages = ["/", "/index.html", "/embudo.html", "/formulacion.html", "/formulados.html", "/mapa.html", "/pilares.html", "/planDesarrollo.html", "/ProyectosPensados.html", "/radicados.html", "/timeLine.html"];
             let isRoot = rootPages.includes(relativePath);
+    
+            // Calcula la profundidad del archivo dentro de la estructura de carpetas
             let depth = isRoot ? 0 : relativePath.split("/").length - 2;
             let prefix = depth > 0 ? "../".repeat(depth) : "";
     
-            let headerPath = prefix + "header.html"; // Sin la barra inicial
+            // Ruta corregida del header
+            let headerPath = prefix + "header.html"; // Sin barra inicial
+    
+            console.log("Ruta generada para el header:", headerPath); // Verifica en la consola
     
             fetch(headerPath)
                 .then(response => {
