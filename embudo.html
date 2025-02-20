@@ -164,30 +164,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const etapas = document.querySelectorAll('.etapa');
-
-        etapas.forEach(etapa => {
-            etapa.addEventListener('click', () => {
-                const contenido = etapa.querySelector('.contenido');
-                contenido.classList.toggle('mostrar');
-                etapas.forEach(e => {
-                    if (e !== etapa) {
-                        const otroContenido = e.querySelector('.contenido');
-                        otroContenido.classList.remove('mostrar');
-                    }
-                });
-            });
-        });
-        
-        
         document.addEventListener("DOMContentLoaded", function () {
-            let path = window.location.pathname; //
+            let repoName = "/TimeLineProyectos"; // Nombre del repositorio en GitHub Pages
+            let path = window.location.pathname;
+    
+            // Ajusta el path para eliminar el nombre del repo y obtener la ruta real del archivo
+            let relativePath = path.startsWith(repoName) ? path.replace(repoName, "") : path;
+    
+            // Páginas que están en la raíz del proyecto
             let rootPages = ["/", "/index.html", "/embudo.html", "/formulacion.html", "/formulados.html", "/mapa.html", "/pilares.html", "/planDesarrollo.html", "/ProyectosPensados.html", "/radicados.html", "/timeLine.html"];
-            let isRoot = rootPages.includes(path);
-            let depth = isRoot ? 0 : path.split("/").length - 2;
+            let isRoot = rootPages.includes(relativePath);
+    
+            // Calcula la profundidad del archivo dentro de la estructura de carpetas
+            let depth = isRoot ? 0 : relativePath.split("/").length - 2;
             let prefix = depth > 0 ? "../".repeat(depth) : "";
-            let headerPath = prefix + "header.html";
-
+    
+            // Ruta corregida del header
+            let headerPath = "https://camilomadrigal12.github.io/TimeLineProyectos/header.html";
+    
+            console.log("Ruta generada para el header:", headerPath); // Verifica en la consola
+    
             fetch(headerPath)
                 .then(response => {
                     if (!response.ok) {
@@ -197,7 +193,7 @@
                 })
                 .then(data => {
                     document.getElementById("header").innerHTML = data;
-                    
+    
                     setTimeout(() => {
                         let logo = document.querySelector("#header #logo");
                         if (logo) {
@@ -210,11 +206,10 @@
                             link.setAttribute("href", newHref);
                             console.log(`Modificado link: ${link.innerText} -> ${newHref}`);
                         });
-                    })
+                    });
                 })
                 .catch(error => console.error("Error cargando el header:", error));
         });
-   
     
     </script>
 </body>
