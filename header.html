@@ -1,0 +1,69 @@
+<style>
+    /* Estilo para el navbar */
+    .navbar {
+        min-height: 100px; /* Ajusta la altura del navbar */
+        padding: 20px 30px; /* Espacio a los lados */
+    }
+
+    /* Estilo para el logo */
+    .logo {
+    width: 200%; /* Ocupar el tamaño completo del contenedor */
+    max-width: 400px; /* Límite máximo */
+    height: auto;
+    max-height: 400px;
+    margin-left: 0;
+}
+
+    /* Contenedor más ancho */
+    .container-fluid {
+        padding-left: 50px; /* Más espacio a la izquierda */
+        padding-right: 50px; /* Más espacio a la derecha */
+    }
+
+    /* Espaciado entre enlaces */
+    .nav-link {
+        font-size: 20px; /* Aumenta el tamaño del texto */
+        padding: 15px 25px; /* Más espacio horizontal entre enlaces */
+    }
+
+    /* Aumentar la separación entre los elementos del navbar */
+    .navbar-nav {
+        gap: 20px; /* Separa los ítems del menú */
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" data-href="index.html">
+            <img data-src="assets/img/LOGO OFICIAL ALCALDÍA DE COPACABANA-02-modificado.png" 
+                 id="logo" 
+                 alt="Logo" 
+                 class="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link active"  data-href="index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-href="embudo.html">Seguimiento Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-href="timeLine.html">TimeLine Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-href="planDesarrollo.html">Plan de Desarrollo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-href="mapa.html">Mapa Copacabana</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-href="pilares.html">Pilares</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

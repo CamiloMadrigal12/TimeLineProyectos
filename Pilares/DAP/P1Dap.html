@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Proyectos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            position: relative;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            position: relative;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .main-box {
+            background-color: #424242;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            position: relative;
+            min-width: 180px;
+        }
+        .box {
+            background-color: #64B5F6;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            width: 250px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Columna izquierda -->
+        <div class="column" id="left-column"></div>
+        
+        <!-- Cuadro central -->
+        <div class="main-box">Pilar</div>
+        
+        <!-- Columna derecha -->
+        <div class="column" id="right-column"></div>
+    </div>
+
+    <script>
+        const leftColumn = document.getElementById('left-column');
+        const rightColumn = document.getElementById('right-column');
+
+        const tasks = [
+            "1 de Abril - 5% Gestionar ejecución del proyecto.",
+            "1 de Mayo - 10% Seguimiento en alcance y duración.",
+            "1 de Junio - 15% Acciones y solicitudes a VRIN.",
+            "1 de Julio - 20% Revisar en SICOP ejecución.",
+            "1 de Agosto - 25% Considerar informes técnicos.",
+            "1 de Septiembre - 30% Entregar informe técnico.",
+            "1 de Octubre - 35% Revisar conceptos y ajustes.",
+            "1 de Noviembre - 40% Completar soportes.",
+            "1 de Diciembre - 45% Evaluación de impacto.",
+            "15 de Diciembre - 50% Presentar reporte final.",
+            "5 de Enero - 55% Análisis post-proyecto.",
+            "1 de Febrero - 60% Seguimiento financiero.",
+            "1 de Marzo - 65% Ajuste de planificación.",
+            "1 de Abril - 70% Evaluación de riesgos.",
+            "1 de Mayo - 75% Monitoreo de desempeño.",
+            "1 de Junio - 80% Implementar mejoras.",
+            "1 de Julio - 85% Presentación final.",
+            "1 de Agosto - 90% Validación de resultados.",
+            "1 de Septiembre - 95% Feedback y ajustes.",
+            "1 de Octubre - 100% Cierre y documentación."
+        ];
+
+        tasks.forEach((task, index) => {
+            const box = document.createElement('div');
+            box.classList.add('box');
+            box.innerHTML = task;
+
+            if (index < 10) {
+                leftColumn.appendChild(box);
+            } else {
+                rightColumn.appendChild(box);
+            }
+        });
+       
+        document.addEventListener("DOMContentLoaded", function () {
+                   let path = window.location.pathname; //
+                   let rootPages = ["/", "/index.html", "/embudo.html", "/formulacion.html", "/formulados.html", "/mapa.html", "/pilares.html", "/planDesarrollo.html", "/ProyectosPensados.html", "/radicados.html", "/timeLine.html"];
+                   let isRoot = rootPages.includes(path);
+                   let depth = isRoot ? 0 : path.split("/").length - 2;
+                   let prefix = depth > 0 ? "../".repeat(depth) : "";
+                   let headerPath = prefix + "header.html";
+       
+                   fetch(headerPath)
+                       .then(response => {
+                           if (!response.ok) {
+                               throw new Error("No se pudo cargar el header. Verifica la ruta.");
+                           }
+                           return response.text();
+                       })
+                       .then(data => {
+                           document.getElementById("header").innerHTML = data;
+                           
+                           setTimeout(() => {
+                               let logo = document.querySelector("#header #logo");
+                               if (logo) {
+                                   logo.src = prefix + logo.getAttribute("data-src");
+                                   console.log("Logo cargado con src:", logo.src);
+                               }
+                               let links = document.querySelectorAll("#header a[data-href]");
+                               links.forEach(link => {
+                                   let newHref = isRoot ? link.getAttribute("data-href") : prefix + link.getAttribute("data-href");
+                                   link.setAttribute("href", newHref);
+                                   console.log(`Modificado link: ${link.innerText} -> ${newHref}`);
+                               });
+                           })
+                       })
+                       .catch(error => console.error("Error cargando el header:", error));
+       
+       
+       
+             // Animación de las barras de progreso
+             const progressBars = document.querySelectorAll('.progress');
+             progressBars.forEach((bar) => {
+               const progressWidth = bar.style.width;
+               bar.style.width = '0%';
+               
+               setTimeout(() => {
+                 bar.style.width = progressWidth;
+               }, 300);
+             });
+           });
+         
+    </script>
+</body>
+</html>
