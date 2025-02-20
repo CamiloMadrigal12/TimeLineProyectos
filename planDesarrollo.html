@@ -248,7 +248,7 @@ body {
             let isRoot = rootPages.includes(path);
             let depth = isRoot ? 0 : path.split("/").length - 2;
             let prefix = depth > 0 ? "../".repeat(depth) : "";
-            let headerPath = prefix + "header.html";
+            let headerPath = prefix + "/header.html";
 
             fetch(headerPath)
                 .then(response => {
