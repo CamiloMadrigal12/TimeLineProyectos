@@ -74,12 +74,17 @@
     <!-- Script para cargar el header -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            let path = window.location.pathname; //
+            let path = window.location.pathname;
+            let repoName = "/TimeLineProyectos"; // Ajusta según el nombre de tu repositorio
+            let relativePath = path.startsWith(repoName) ? path.replace(repoName, "") : path;
+            
             let rootPages = ["/", "/index.html", "/embudo.html", "/formulacion.html", "/formulados.html", "/mapa.html", "/pilares.html", "/planDesarrollo.html", "/ProyectosPensados.html", "/radicados.html", "/timeLine.html", "/pilares.html"];
-            let isRoot = rootPages.includes(path);
-            let depth = isRoot ? 0 : path.split("/").length - 2;
+            let isRoot = rootPages.includes(relativePath);
+            let depth = isRoot ? 0 : relativePath.split("/").length - 2;
             let prefix = depth > 0 ? "../".repeat(depth) : "";
-            let headerPath = prefix + "/header.html";
+    
+            let headerPath = prefix + "header.html"; // Sin la barra inicial
+    
             fetch(headerPath)
                 .then(response => {
                     if (!response.ok) {
@@ -89,7 +94,7 @@
                 })
                 .then(data => {
                     document.getElementById("header").innerHTML = data;
-                    
+    
                     setTimeout(() => {
                         let logo = document.querySelector("#header #logo");
                         if (logo) {
@@ -102,7 +107,7 @@
                             link.setAttribute("href", newHref);
                             console.log(`Modificado link: ${link.innerText} -> ${newHref}`);
                         });
-                    })
+                    });
                 })
                 .catch(error => console.error("Error cargando el header:", error));
         });
