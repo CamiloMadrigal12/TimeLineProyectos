@@ -75,12 +75,11 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let path = window.location.pathname; //
-            let rootPages = ["/", "/index.html", "/embudo.html", "/formulacion.html", "/formulados.html", "/mapa.html", "/pilares.html", "/planDesarrollo.html", "/ProyectosPensados.html", "/radicados.html", "/timeLine.html"];
+            let rootPages = ["/", "/index.html", "/embudo.html", "/formulacion.html", "/formulados.html", "/mapa.html", "/pilares.html", "/planDesarrollo.html", "/ProyectosPensados.html", "/radicados.html", "/timeLine.html", "/pilares.html"];
             let isRoot = rootPages.includes(path);
             let depth = isRoot ? 0 : path.split("/").length - 2;
             let prefix = depth > 0 ? "../".repeat(depth) : "";
-            let headerPath = prefix + "header.html";
-
+            let headerPath = prefix + "/header.html";
             fetch(headerPath)
                 .then(response => {
                     if (!response.ok) {
