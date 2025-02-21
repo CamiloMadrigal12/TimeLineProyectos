@@ -165,6 +165,25 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+        // Seleccionamos todas las etapas del embudo
+        let etapas = document.querySelectorAll(".etapa");
+
+        etapas.forEach(etapa => {
+            etapa.addEventListener("click", function () {
+                let contenido = this.querySelector(".contenido");
+
+                // Alternar la visibilidad del contenido
+                if (contenido.classList.contains("mostrar")) {
+                    contenido.classList.remove("mostrar");
+                } else {
+                    // Ocultar todos los demás contenidos
+                    document.querySelectorAll(".contenido").forEach(c => c.classList.remove("mostrar"));
+                    contenido.classList.add("mostrar");
+                }
+            });
+        });
+    });
+        document.addEventListener("DOMContentLoaded", function () {
             let repoName = "/TimeLineProyectos"; // Nombre del repositorio en GitHub Pages
             let path = window.location.pathname;
     
