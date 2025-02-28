@@ -62,75 +62,91 @@
     <script>
         // Inicializar el mapa centrado en Copacabana
         var map = L.map("map").setView([6.350, -75.500], 14);
-
+    
         // Agregar capa base de OpenStreetMap
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution: "© OpenStreetMap contributors"
         }).addTo(map);
-
-        // Grupos de capas
+    
+        // Grupos de capas para barrios y veredas
         var barriosLayer = L.featureGroup().addTo(map);
         var veredasLayer = L.featureGroup().addTo(map);
-
+    
         // Estilos de los polígonos
         function estiloBarrios() { return { color: "blue", weight: 2, fillOpacity: 0.4 }; }
         function estiloVeredas() { return { color: "green", weight: 2, fillOpacity: 0.4 }; }
-
-        // Función para manejar eventos en cada polígono
-        function eventosGeoJSON(feature, layer, estiloOriginal) {
-            var props = feature.properties || {}; // Evita errores si faltan datos
-
-            // Contenido del popup con información
+    
+        // Función para manejar eventos en cada polígono de BARRIOS
+        function eventosBarrios(feature, layer) {
+            var props = feature.properties || {}; 
+    
             var popupContent = `
                 <b>Nombre:</b> ${props.nombre || "Sin nombre"}<br>
-                <b>Población:</b> ${props.population || "Desconocida"}<br>
-                <b>Área:</b> ${props.area_ha || "N/A"} ha<br>
-                <b>Zona:</b> ${props.zona || "N/A"}<br>
-                <b>Corregimiento:</b> ${props.corregimiento || "N/A"}<br>
-                <b>Información:</b> ${props.info || "Sin datos"}
+                <b>Población:</b> ${props.poblacion || "Desconocida"}<br>
+                <b>Área:</b> ${props.area || "N/A"} m²<br>
+                <b>Proyectos:</b> ${props.proyectos || "N/A"}<br>
+                <b>Personas Impactadas:</b> ${props.personasImpactadas || "N/A"}<br>
+                <a href="${props.enlace || '#'}" target="_blank" style="color: blue; text-decoration: underline;">Conoce más</a>
             `;
+    
             layer.bindPopup(popupContent);
-
-            // Guardar el estilo original para restaurarlo después
+            agregarEventosHover(layer, estiloBarrios);
+        }
+    
+        // Función para manejar eventos en cada polígono de VEREDAS
+        function eventosVeredas(feature, layer) {
+            var props = feature.properties || {}; 
+    
+            var popupContent = `
+                <b>Nombre:</b> ${props.nombre || "Sin nombre"}<br>
+                <b>Población:</b> ${props.poblacion || "Desconocida"}<br>
+                <b>Área:</b> ${props.area_ha || "N/A"} ha<br>
+                <b>Proyectos:</b> ${props.proyectos || "N/A"}<br>
+                <b>Personas Impactadas:</b> ${props.personasImpactadas || "N/A"}<br>
+                <a href="${props.enlace || '#'}" target="_blank" style="color: blue; text-decoration: underline;">Conoce más</a>
+            `;
+    
+            layer.bindPopup(popupContent);
+            agregarEventosHover(layer, estiloVeredas);
+        }
+    
+        // Función para agregar efectos de hover (resaltar al pasar el mouse)
+        function agregarEventosHover(layer, estiloOriginal) {
             var estiloGuardado = JSON.parse(JSON.stringify(estiloOriginal()));
-
-            // Resaltar al pasar el mouse
+    
             layer.on("mouseover", function () {
                 this.setStyle({ weight: 4, color: "yellow", fillOpacity: 0.6 });
                 this.bringToFront();
             });
-
-            // Restaurar estilo al quitar el mouse
+    
             layer.on("mouseout", function () {
                 this.setStyle(estiloGuardado);
             });
         }
-
-        // Función para cargar GeoJSON en el mapa
-        function cargarGeoJSON(url, estilo, capa) {
+    
+        // Función para cargar GeoJSON de barrios o veredas
+        function cargarGeoJSON(url, estilo, capa, eventosCallback) {
             fetch(url)
                 .then(response => {
                     if (!response.ok) throw new Error(`No se pudo cargar ${url}`);
                     return response.json();
                 })
                 .then(data => {
-                    var geoJsonLayer = L.geoJSON(data, {
+                    L.geoJSON(data, {
                         style: estilo,
-                        onEachFeature: function (feature, layer) {
-                            eventosGeoJSON(feature, layer, estilo);
-                        }
+                        onEachFeature: eventosCallback
                     }).addTo(capa);
-
-                    // Ajustar la vista para mostrar ambos conjuntos de datos correctamente
+    
+                    // Ajustar la vista para mostrar todos los datos correctamente
                     map.fitBounds(barriosLayer.getBounds().extend(veredasLayer.getBounds()));
                 })
                 .catch(error => console.error(`Error cargando ${url}:`, error));
         }
-
+    
         // Cargar barrios y veredas en capas separadas
-        cargarGeoJSON("barrios.geojson", estiloBarrios, barriosLayer);
-        cargarGeoJSON("veredas.geojson", estiloVeredas, veredasLayer);
-
+        cargarGeoJSON("barrios.geojson", estiloBarrios, barriosLayer, eventosBarrios);
+        cargarGeoJSON("veredas.geojson", estiloVeredas, veredasLayer, eventosVeredas);
+    
         // Agregar control de capas para mostrar/ocultar barrios y veredas
         var capasSuperpuestas = {
             "Barrios": barriosLayer,

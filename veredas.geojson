@@ -2140,14 +2140,14 @@
             },
             "properties": {
                 "name": "Ancon",
+                "poblacion": "945 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "Ancon",
-                "area_m2": "614160.632953",
                 "area_ha": "61.416063",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "4059.66892"
             }
         },
@@ -12920,16 +12920,19 @@
             },
             "properties": {
                 "name": "Zarzal La Luz",
+                "poblacion": "1.234 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "Zarzal La Luz",
-                "area_m2": "12391397.3862",
                 "area_ha": "1239.139739",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "21116.471923"
+                
             }
+            
         },
         {
             "type": "Feature",
@@ -17320,14 +17323,15 @@
             },
             "properties": {
                 "name": "El Noral",
+                "poblacion": "1.706 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "El Noral",
-                "area_m2": "910764.733085",
                 "area_ha": "91.076473",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "6533.216912"
             }
         },
@@ -25319,17 +25323,20 @@
                 ]
             },
             "properties": {
-                "name": "La Veta",
-                "extrude": false,
-                "altitudeMode": "clampToGround",
-                "codigo_vereda": "1212201",
-                "nombre": "La Veta",
-                "area_m2": "7085556.70465",
-                "area_ha": "708.55567",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
-                "shape_length": "12777.708302"
-            }
+    "name": "La Veta",
+    "extrude": false,
+    "altitudeMode": "clampToGround",
+    "codigo_vereda": "1212201",
+    "nombre": "La Veta",
+    "area_m2": "7085556.70465",
+    "area_ha": "708.55567",
+    "corregimiento": "Cabecera",
+    "shape_length": "12777.708302",
+    "poblacion": "775 Habitantes aprox",
+    "proyectos": "Mejoramiento de vías rurales",
+    "personasImpactadas": "1200 personas beneficiadas",
+    "enlace": "https://ejemplo.com/la-veta"
+}
         },
         {
             "type": "Feature",
@@ -27750,14 +27757,14 @@
             },
             "properties": {
                 "name": "Zarzal Curazao",
+                "poblacion": "975 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "Zarzal Curazao",
-                "area_m2": "679821.711635",
+                "personasImpactadas": "1200 personas",
                 "area_ha": "67.982171",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "4757.403288"
             }
         },
@@ -49960,14 +49967,15 @@
             },
             "properties": {
                 "name": "Granizal",
+                "poblacion": "551 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "Granizal",
-                "area_m2": "6937493.11152",
                 "area_ha": "693.749311",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "13717.254338"
             }
         },
@@ -53220,14 +53228,15 @@
             },
             "properties": {
                 "name": "Fontidueño",
+                "poblacion": "942 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "Fontidueño",
-                "area_m2": "1603547.02568",
                 "area_ha": "160.354703",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "6403.82516"
             }
         },
@@ -58525,14 +58534,15 @@
             },
             "properties": {
                 "name": "El Convento",
+                "poblacion": "463 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "El Convento",
-                "area_m2": "4285085.57617",
                 "area_ha": "428.508558",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "11007.416602"
             }
         },
@@ -63425,14 +63435,15 @@
             },
             "properties": {
                 "name": "Quebrada Arriba",
+                "poblacion": "524 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "Quebrada Arriba",
-                "area_m2": "5217952.24847",
                 "area_ha": "521.795225",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "11610.419359"
             }
         },
@@ -69450,14 +69461,15 @@
             },
             "properties": {
                 "name": "Peñolcito",
+                "poblacion": "940 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "Peñolcito",
-                "area_m2": "2956454.09137",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "area_ha": "295.645409",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
                 "shape_length": "9037.45447"
             }
         },
@@ -77282,12 +77294,13 @@
                 "name": "Cabuyal",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
+                "poblacion": "2.733 Habitantes aprox",
                 "codigo_vereda": "1212201",
                 "nombre": "Cabuyal",
-                "area_m2": "9019483.72294",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "area_ha": "901.948372",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
                 "shape_length": "19023.59095"
             }
         },
@@ -81620,14 +81633,15 @@
             },
             "properties": {
                 "name": "Montañita",
+                "poblacion": "858 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "Montañita",
-                "area_m2": "1933021.70512",
                 "area_ha": "193.302171",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "6903.197307"
             }
         },
@@ -87865,14 +87879,15 @@
             },
             "properties": {
                 "name": "Sabaneta",
+                "poblacion": "533 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "Sabaneta",
-                "area_m2": "1818817.59668",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "area_ha": "181.88176",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
                 "shape_length": "7283.112737"
             }
         },
@@ -91725,14 +91740,15 @@
             },
             "properties": {
                 "name": "El Salado",
+                "poblacion": "1.225 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "El Salado",
-                "area_m2": "1058207.21245",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
                 "area_ha": "105.820721",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "5926.592325"
             }
         },
@@ -93690,14 +93706,15 @@
             },
             "properties": {
                 "name": "Alvarado",
+                "poblacion": "1.404 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212201",
                 "nombre": "Alvarado",
-                "area_m2": "769765.451645",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "area_ha": "76.976545",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
                 "shape_length": "3829.407641"
             }
         }

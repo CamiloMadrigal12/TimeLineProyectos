@@ -3258,10 +3258,14 @@
             },
             "properties": {
                 "name": "El Tablazo - Canoas",
+                "poblacion": "4.464 Habitantes aprox",
                 "codigo": "003",
                 "nombre": "El Tablazo",
                 "longitud": "2047.21306",
                 "area": "156261.651373",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "15.626165"
             }
         },
@@ -4137,10 +4141,14 @@
             },
             "properties": {
                 "name": "Fátima",
+                "poblacion": "1.792 Habitantes aprox",
                 "codigo": "005",
                 "nombre": "Fátima",
                 "longitud": "1107.463715",
                 "area": "55440.207416",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "5.544021"
             }
         },
@@ -9521,11 +9529,12 @@
             },
             "properties": {
                 "name": "Cristo Rey",
-                "codigo": "009",
+                "poblacion": "1.828 Habitantes aprox",
                 "nombre": "Cristo Rey",
-                "longitud": "4850.745721",
                 "area": "421222.937412",
-                "hectareas": "42.122294"
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta"
             }
         },
         {
@@ -10655,10 +10664,14 @@
             },
             "properties": {
                 "name": "Obrero",
+                "poblacion": "4.213 Habitantes aprox",
                 "codigo": "011",
                 "nombre": "Obrero",
                 "longitud": "1475.85569",
                 "area": "82706.292477",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "8.270629"
             }
         },
@@ -11469,10 +11482,14 @@
             },
             "properties": {
                 "name": "Tobon Quintero",
+                "poblacion": "1.205 Habitantes aprox",
                 "codigo": "013",
                 "nombre": "Tobon Quintero",
                 "longitud": "1075.99888",
                 "area": "54930.504927",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "5.49305"
             }
         },
@@ -11983,10 +12000,14 @@
             },
             "properties": {
                 "name": "El Porvenir",
+                "poblacion": "576 Habitantes aprox",
                 "codigo": "019",
                 "nombre": "El Porvenir",
                 "longitud": "545.763724",
                 "area": "14961.641463",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "1.496164"
             }
         },
@@ -13307,10 +13328,14 @@
             },
             "properties": {
                 "name": "El Remanso",
+                "poblacion": "582 Habitantes aprox",
                 "codigo": "021",
                 "nombre": "El Remanso",
                 "longitud": "2947.221289",
                 "area": "276796.096921",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "27.67961"
             }
         },
@@ -15616,10 +15641,14 @@
             },
             "properties": {
                 "name": "La Misericordia",
+                "poblacion": "3.964 Habitantes aprox",
                 "codigo": "022",
                 "nombre": "La Misericordia",
                 "longitud": "2544.109052",
                 "area": "246874.057754",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "24.687406"
             }
         },
@@ -19550,10 +19579,14 @@
             },
             "properties": {
                 "name": "San Juan",
+                "poblacion": "1.345 Habitantes aprox",
                 "codigo": "001",
                 "nombre": "San Juan",
                 "longitud": "2650.583296",
                 "area": "199607.236488",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "22.339873"
             }
         },
@@ -20089,10 +20122,14 @@
             },
             "properties": {
                 "name": "San Francisco",
+                "poblacion": "1.027 Habitantes aprox",
                 "codigo": "007",
                 "nombre": "San Francisco",
                 "longitud": "651.514677",
                 "area": "14050.856668",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "1.405086"
             }
         },
@@ -25034,9 +25071,13 @@
             "properties": {
                 "name": "Las Vegas",
                 "codigo": "015",
+                "poblacion": "4.167 Habitantes aprox",
                 "nombre": "Las Vegas",
                 "longitud": "3550.028952",
                 "area": "227649.708537",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "22.764971"
             }
         },
@@ -25937,10 +25978,14 @@
             },
             "properties": {
                 "name": "La Asunción",
+                "poblacion": "3.993 Habitantes aprox",
                 "codigo": "016",
                 "nombre": "La Asunción",
                 "longitud": "1874.900281",
                 "area": "166834.508914",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "16.683451"
             }
         },
@@ -28086,10 +28131,14 @@
             },
             "properties": {
                 "name": "Zona Múltiple",
+                "poblacion": "129 Habitantes aprox",
                 "codigo": "018",
                 "nombre": "Zona Múltiple",
                 "longitud": "5120.543522",
                 "area": "467833.800233",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "46.78338"
             }
         },
@@ -30310,10 +30359,14 @@
             },
             "properties": {
                 "name": "Villa Nueva",
+                "poblacion": "5.301 Habitantes aprox",
                 "codigo": "024",
                 "nombre": "Villa Nueva",
                 "longitud": "3132.116137",
                 "area": "321690.270393",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "32.169027"
             }
         },
@@ -31209,9 +31262,13 @@
             },
             "properties": {
                 "name": "Simón Bolivar",
+                "poblacion": "2.900 Habitantes aprox",
                 "codigo": "012",
                 "nombre": "Simón Bolivar",
                 "longitud": "1881.910149",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "area": "187851.351014",
                 "hectareas": "18.785135"
             }
@@ -31813,10 +31870,14 @@
             },
             "properties": {
                 "name": "La Pedrera",
+                "poblacion": "4.530 Habitantes aprox",
                 "codigo": "006",
                 "nombre": "La Pedrera",
                 "longitud": "1559.224733",
                 "area": "116791.485134",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "11.679149"
             }
         },
@@ -33717,10 +33778,14 @@
             },
             "properties": {
                 "name": "El Mojón",
+                "poblacion": "2.131 Habitantes aprox",
                 "codigo": "004",
                 "nombre": "El Mojón",
                 "longitud": "2060.529468",
                 "area": "170219.105427",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "17.021911"
             }
         },
@@ -36346,10 +36411,14 @@
             },
             "properties": {
                 "name": "Yarumito",
+                "poblacion": "3.367 Habitantes aprox",
                 "codigo": "014",
                 "nombre": "Yarumito",
                 "longitud": "2024.843474",
                 "area": "70136.47503",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "7.013648"
             }
         },
@@ -36920,10 +36989,14 @@
             },
             "properties": {
                 "name": "El Recreo",
+                "poblacion": "2.686 Habitantes aprox",
                 "codigo": "010",
                 "nombre": "El Recreo",
                 "longitud": "745.244483",
                 "area": "25464.184352",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "2.546418"
             }
         },
@@ -39289,10 +39362,14 @@
             },
             "properties": {
                 "name": "La María",
+                "poblacion": "3.170 Habitantes aprox",
                 "codigo": "002",
                 "nombre": "La María",
                 "longitud": "2555.360737",
                 "area": "284791.287842",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "28.479129"
             }
         },
@@ -40378,10 +40455,14 @@
             },
             "properties": {
                 "name": "Miraflores",
+                "poblacion": "1.432 Habitantes aprox",
                 "codigo": "008",
                 "nombre": "Miraflores",
                 "longitud": "850.711771",
                 "area": "27872.389494",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "2.787239"
             }
         },
@@ -44022,10 +44103,14 @@
             },
             "properties": {
                 "name": "La Azulita",
+                "poblacion": "4.303 Habitantes aprox",
                 "codigo": "017",
                 "nombre": "La Azulita",
                 "longitud": "2720.811399",
                 "area": "171644.764891",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "17.164476"
             }
         },
@@ -47341,10 +47426,14 @@
             },
             "properties": {
                 "name": "Machado",
+                "poblacion": "7.328 Habitantes aprox",
                 "codigo": "023",
                 "nombre": "Machado",
                 "longitud": "5133.963778",
                 "area": "757997.815914",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "75.799782"
             }
         },
@@ -49950,10 +50039,14 @@
             },
             "properties": {
                 "name": "Pedregal",
+                "poblacion": "2.739 Habitantes aprox",
                 "codigo": "020",
                 "nombre": "Pedregal",
                 "longitud": "2728.970743",
                 "area": "299263.068915",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "hectareas": "29.926307"
             }
         }
