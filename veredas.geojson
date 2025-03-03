@@ -45297,14 +45297,16 @@
             },
             "properties": {
                 "name": "Copacabana",
+                "poblacion": "87.980 Habitantes aprox",
                 "extrude": false,
                 "altitudeMode": "clampToGround",
                 "codigo_vereda": "1212101",
                 "nombre": "Copacabana",
                 "area_m2": "11063364.5928",
                 "area_ha": "1106.336459",
-                "corregimiento": "Cabecera",
-                "zona": "Aburra Norte",
+                "proyectos": "10",
+                "personasImpactadas": "1200 personas",
+                "enlace": "https://ejemplo.com/la-veta",
                 "shape_length": "29162.027639"
             }
         },
