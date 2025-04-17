@@ -10,8 +10,8 @@ from openpyxl.styles import Font, Border, Side, PatternFill, Alignment, NamedSty
 from openpyxl.utils import get_column_letter
 
 # Rutas
-ruta_excel_proyecto = r"C:\Users\diana\OneDrive\proyectos.xlsx"
-ruta_excel_radicados = r"C:\Users\diana\OneDrive\radicados.xlsx"
+ruta_excel_proyecto = r"C:\Users\mondr\OneDrive\proyectos.xlsx"
+ruta_excel_radicados = r"C:\Users\mondr\OneDrive\radicados.xlsx"
 ruta_html_principal = "formulacion.html"
 ruta_diagnosticos = "diagnosticos"
 ruta_html_radicado = "radicados.html"
