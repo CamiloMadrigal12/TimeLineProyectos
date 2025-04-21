@@ -116,7 +116,7 @@ def verificar_cambios_observacion(df_actual, respetar_dias_existentes=False):
     
     # Identificar la columna de observación (puede tener diferentes nombres)
     columna_observacion = None
-    posibles_nombres = ['OBSERVACION', 'Observacion', 'observacion', 'OBSERVACIÓN', 'Observación', 'observación', 'OBSERVACIONES']
+    posibles_nombres = ['OBSERVACION', 'Observacion', 'observacion', 'OBSERVACIÓN', 'Observación', 'observación', 'OBSERVACIONES', ]
     for nombre in posibles_nombres:
         if nombre in df_actual.columns:
             columna_observacion = nombre
