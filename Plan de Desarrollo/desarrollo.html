@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAP</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+      background-color: #0078d4;
+      color: #fff;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    .progress-bar {
+      width: 100%;
+      background-color: #e0e0e0;
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 10px;
+      background-color: #28a745;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Navbar */
+    .navbar-brand img {
+      height: 50px;
+      margin-right: 10px;
+    }
+
+    .navbar-nav {
+      margin: auto;
+    }
+
+    .navbar {
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      padding: 10px 20px;
+    }
+
+    .navbar-nav a:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <div id="header"></div>
+
+  <!-- Tabla de Proyectos -->
+  <div class="container">
+    <h1>Secretaría de Desarrollo y Bienestar Social</h1>
+    <table id="projectsTable">
+      <thead>
+        <tr>
+          <th>Indicador</th>
+          <th>Meta Cuatrenio</th>
+          <th>Meta 2025</th>
+          <th>Primer Trimestre</th>
+          <th>Progreso Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Eventos para el fomento del emprendimiento realizados </td>
+          <td>12</td>
+          <td>4</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 25%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Capacitaciones realizadas a emprendimientos para la creación y consolidación de empresa </td>
+          <td>15</td>
+          <td>4</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 25%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategias de integración y financiación empresarial implementadas </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Emprendimientos fortalecidos y promovidos </td>
+          <td>200</td>
+          <td>60</td>
+          <td>20</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 33%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Convenios público/privados para el fortalecimiento del empleo realizados </td>
+          <td>5</td>
+          <td>1</td>
+          <td>10%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 10%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de formación para generación de competencias y habilidades( empleos de futuro e industria Tech) realizadas </td>
+          <td>8</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia "Emprendimiento para el Futuro" implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0,1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 10%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Campañas para la estimulación de la creación, formalización y mejoramiento de emprendimientos realizadas </td>
+          <td>14</td>
+          <td>4</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 25%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia "El alcalde visita tu empresa" implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Incentivos tributarios para empresas que se asienten en el municipio generados </td>
+          <td>3</td>
+          <td>1</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia de semaforización empresarial para la sostenibilidad implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Empresas entorno a la estrategia de "Semaforización empresarial" clasificadas </td>
+          <td>75%</td>
+          <td>25%</td>
+          <td>4%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 15%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Red de Negocios Copacabana e integración regional con el distrito de Ciencia, Tecnología e Innovación de Medellín diseñada e implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Capacitaciones, asesorías y alianzas con la mesa empresarial realizadas </td>
+          <td>120</td>
+          <td>35</td>
+          <td>7</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 20%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Redes empresariales diseñadas e implementadas </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de fortalecimiento de la oficina de empleo en Copacabana implementadas </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones para la promoción de empleo de la mano de la oficina pública de empleo implementadas </td>
+          <td>8</td>
+          <td>2</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Política pública de turismo con enfoque sostenible diseñada y expedida. </td>
+          <td>1</td>
+          <td>1</td>
+          <td>22%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 22%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Marca Turística de Copacabana  creada </td>
+          <td>1</td>
+          <td>0</td>
+          <td>NP</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia para la promoción de la Marca Municipio de Copacabana implementada. </td>
+          <td>1</td>
+          <td>0</td>
+          <td>NP</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Asesorías y capacitaciones a los prestadores de servicios turísticos en el municipio </td>
+          <td>60</td>
+          <td>15</td>
+          <td>2</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 13%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de Endomarketing turístico implementadas </td>
+          <td>10</td>
+          <td>3</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de capacitación, acompañamientos, asesorías, divulgación  promoción para implementar el Turismo Comunitario y Cultural en el territorio </td>
+          <td>14</td>
+          <td>4</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 25%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Ecosistema Empresarial Turístico implementado </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0,28</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 28%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Sistema de información turística implementado </td>
+          <td>5</td>
+          <td>2</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estudios de capacidad de carga en los puntos turísticos prioritarios del municipio de Copacabana realizados </td>
+          <td>5</td>
+          <td>2</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Oficina de cooperación internacional, innovación y desarrollo creada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>50%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones para el acceso y uso de las Tecnologías de la Información y las Comunicaciones implementadas en el marco de Ciudad Inteligente </td>
+          <td>13</td>
+          <td>4</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia para desarrollo integral de la primera infancia implementada: acceso a los servicios básicos, acompañamiento psicosocial y protección de derechos que incluya la prevención y atención de la violencia integral contra niños, niñas y adolescentes          </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia para la atención integral a madres gestantes implementadas </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0,25%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 25%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia de entornos protectores y seguros implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia para el desarrollo integral de la niñez y adolescencia implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0,7</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 70%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Ruta Integral de Acompañamiento a Víctimas (RIAV) actualizada.          </td>
+          <td>1</td>
+          <td>0</td>
+          <td>NP</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia de articulación a los programas de apoyo y atención del gobierno nacional y departamental con las víctimas de Copacabana implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0,5%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Oficina de Atención a Víctimas fortalecida </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de promoción del reconocimiento y respaldo a las iniciativas de las personas y organizaciones de víctimas en el marco del proceso de reparación integral y la búsqueda de reconciliación realizadas </td>
+          <td>12</td>
+          <td>3</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 33%;"></div>
+            </div>
+          </td>
+        </tr> 
+        <tr>
+          <td>Acciones de Empoderamiento y Participación de las Víctimas en la Construcción de Paz implementadas </td>
+          <td>7</td>
+          <td>2</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Política pública de víctimas implementada </td>
+          <td>1</td>
+          <td>0</td>
+          <td>NP</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Política pública de juventud actualizada          </td>
+          <td>1</td>
+          <td>0,5</td>
+          <td>0,2</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 40%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia "STEAM Zone" para formación especializada en STEAM  implementada. </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0,1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 10%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de seguimiento, formación, acompañamiento y asesoramiento dirigidas al fortalecimiento del Consejo municipal de Juventud y de la plataforma municipal de juventud desarrolladas </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Programa de acompañamiento integral a jóvenes (emocional, social, económico) creado e implementado </td>
+          <td>8</td>
+          <td>2</td>
+          <td>0,2</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 10%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Capacitaciones y asesorías a personeros estudiantiles para fortalecer sus labores de líderes y gestores ante el municipio realizadas </td>
+          <td>20</td>
+          <td>6</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de formación y/o capacitación juvenil para el fortalecimiento de los jóvenes emprendedores del municipio desarrolladas </td>
+          <td>7</td>
+          <td>2</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Convenios público-privados para generar programas de acompañamiento y fortalecimiento de actividades no convencionales y educación no formal para los jóvenes, en el marco del programa "Más Oportunidades para Nuestros Jóvenes" realizados </td>
+          <td>7</td>
+          <td>2</td>
+          <td>0,2</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 10%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategía "jóvenes talento" implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0,1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 10%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de acompañamiento, formación y creación de alianzas para empoderamiento y autonomía femenina implementadas. </td>
+          <td>14</td>
+          <td>4</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 25%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Programa integral de protección de víctimas de la violencia, líderes sociales y madres cabeza de familia. </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Red de apoyo de las madres cabeza de hogar creada e implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia de creación de escuela de liderazgo Mujeres Líderes y Participativas </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Política pública de la mujer actualizada </td>
+          <td>1</td>
+          <td>0,5</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>“La casa morada”: un lugar de encuentro para las mujeres y con atención priorizada creada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia integral "Mujeres Seguras y Libres de Violencia" implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de fortalecimiento integral a través de acompañamiento, asesorías, alianzas estratégicas y capacitaciones de la población LGTIQA+ implementadas </td>
+          <td>7</td>
+          <td>2</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Política pública municipal de diversidad diseñada e implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0,15</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 15%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Programa "Desde mi realidad" como estrategia de comunicación multimodal para la población LGBTIQA+ implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mesa diversa fortalecida  </td>
+          <td>1</td>
+          <td>1</td>
+          <td>0,15</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 15%;"></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>"Casa de Colores": Espacio de Encuentro y con atención integral para la diversidad adecuada </td>
+          <td>1</td>
+          <td>0</td>
+          <td>NP</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de Educación Inclusiva, laboral y Sensibilización Comunitaria implementadas </td>
+          <td>7</td>
+          <td>2</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Centro de Atención Integral para la Discapacidad (CAID) creado </td>
+          <td>1</td>
+          <td>0</td>
+          <td>NP</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Capacitaciones a los cuidadores de personas con Discapacidad  realizadas </td>
+          <td>8</td>
+          <td>2</td>
+          <td>2</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones para empresas, emprendimiento y comercios con capacitaciones, divulgación, concientización, entre otras, para Inclusión Laboral para Personas con Discapacidad implementadas </td>
+          <td>6</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Plan ocupacional para personas con discapacidad diseñado </td>
+          <td>1</td>
+          <td>0</td>
+          <td>NP</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de Empoderamiento y Participación Comunitaria de personas con discapacidad implementadas </td>
+          <td>6</td>
+          <td>1</td>
+          <td>25%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 25%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td> Encuentros de bienestar emocional, estimulación, creatividad y expresión para las personas con discapacidad </td>
+          <td>10</td>
+          <td>3</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 33%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia de Atención psicosocial y resocialización  implementada. </td>
+          <td>1</td>
+          <td>1</td>
+          <td>25%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 25%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones de acompañamiento, formación y campañas de divulgación para promover programas de desintoxicación implementadas </td>
+          <td>11</td>
+          <td>3</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 33%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Política pública para personas en situación de calle diseñada y expedida </td>
+          <td>1</td>
+          <td>0,5</td>
+          <td>0,15</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 30%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Espacios de participación liderados por el sector religioso, para la garantía del derecho  con plan de acción implementado          </td>
+          <td>1</td>
+          <td>1</td>
+          <td>10%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 10%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Organizaciones basadas en la fe con proyectos de cooperación social y comunitarios formulados </td>
+          <td>8</td>
+          <td>1</td>
+          <td>5%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 5%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Acciones que promuevan un entorno protector alrededor de los lugares de culto, dentro del Plan Integral de Seguridad y Convivencia Ciudadana (PISCC) </td>
+          <td>80</td>
+          <td>25</td>
+          <td>8</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 32%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Capacitaciones para la promoción y protección del derecho a la libertad religiosa </td>
+          <td>7</td>
+          <td>2</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Política pública de libertad religiosa y de cultos formulada e implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>15%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 15%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Mecanismos de participación ciudadana y comunal creado e implementado.          </td>
+          <td>1</td>
+          <td>0</td>
+          <td>0,2</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 20%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Programa de incentivos de las buenas prácticas, gestiones y acciones de los organismos comunales creados </td>
+          <td>1</td>
+          <td>1</td>
+          <td>5%</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 5%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Formaciones en Auditoría Ciudadana y Control Social realizadas </td>
+          <td>6</td>
+          <td>2</td>
+          <td>0</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Estrategia con las Juntas de Acción Comunal para la ejecución de obras según el marco legal que lo rija creada e implementada </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 100%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Canales de comunicación directa con la comunidad creados y fortalecidos </td>
+          <td>5</td>
+          <td>2</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>NPS implementado adecuadamente para el mejoramiento de la atención al ciudadano </td>
+          <td>5</td>
+          <td>2</td>
+          <td>1</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Dirección de Participación Ciudadana creada </td>
+          <td>1</td>
+          <td>0</td>
+          <td>NP</td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" style="width: 0%;"></div>
+            </div>
+          </td>
+        </tr>
+
+
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+ document.addEventListener("DOMContentLoaded", function () {
+            let repoName = "/TimeLineProyectos"; // Nombre del repositorio en GitHub Pages
+            let path = window.location.pathname;
+    
+            // Ajusta el path para eliminar el nombre del repo y obtener la ruta real del archivo
+            let relativePath = path.startsWith(repoName) ? path.replace(repoName, "") : path;
+    
+            // Páginas que están en la raíz del proyecto
+            let rootPages = ["/", "/index.html", "/embudo.html", "/formulacion.html", "/formulados.html", "/mapa.html", "/pilares.html", "/planDesarrollo.html", "/ProyectosPensados.html", "/radicados.html", "/timeLine.html"];
+            let isRoot = rootPages.includes(relativePath);
+    
+            // Calcula la profundidad del archivo dentro de la estructura de carpetas
+            let depth = isRoot ? 0 : relativePath.split("/").length - 2;
+            let prefix = depth > 0 ? "../".repeat(depth) : "";
+    
+            // Ruta corregida del header
+            let headerPath = "https://camilomadrigal12.github.io/TimeLineProyectos/header.html";
+    
+            console.log("Ruta generada para el header:", headerPath); // Verifica en la consola
+    
+            fetch(headerPath)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("No se pudo cargar el header. Verifica la ruta.");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById("header").innerHTML = data;
+    
+                    setTimeout(() => {
+                        let logo = document.querySelector("#header #logo");
+                        if (logo) {
+                            logo.src = prefix + logo.getAttribute("data-src");
+                            console.log("Logo cargado con src:", logo.src);
+                        }
+                        let links = document.querySelectorAll("#header a[data-href]");
+                        links.forEach(link => {
+                            let newHref = isRoot ? link.getAttribute("data-href") : prefix + link.getAttribute("data-href");
+                            link.setAttribute("href", newHref);
+                            console.log(`Modificado link: ${link.innerText} -> ${newHref}`);
+                        });
+                    });
+                })
+                .catch(error => console.error("Error cargando el header:", error));
+        });
+
+
+      // Animación de las barras de progreso
+      const progressBars = document.querySelectorAll('.progress');
+      progressBars.forEach((bar) => {
+        const progressWidth = bar.style.width;
+        bar.style.width = '0%';
+        
+        setTimeout(() => {
+          bar.style.width = progressWidth;
+        }, 300);
+      });
+    
+  </script>
+
+</body>
+</html>
