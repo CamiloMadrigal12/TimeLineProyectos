@@ -1,5 +1,4 @@
 {
-  
   "version": 2,
   "builds": [
     {
@@ -29,12 +28,6 @@
       "dest": "/server.js"
     }
   ],
-  "git": {
-    "deploymentEnabled": {
-      "main": true,
-      "master": true
-    }
-  },
   "env": {
     "NODE_ENV": "production"
   }
