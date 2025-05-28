@@ -8,7 +8,15 @@
   ],
   "routes": [
     {
+      "src": "/api/test-cors",
+      "dest": "/api/test-cors.js"
+    },
+    {
       "src": "/api/consulta-radicado",
+      "dest": "/api/consulta_radicado.js"
+    },
+    {
+      "src": "/api/(.*)",
       "dest": "/server.js"
     },
     {
