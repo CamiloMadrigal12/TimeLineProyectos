@@ -26,8 +26,9 @@ app.use(
 )
 app.use(express.json())
 
-// Servir archivos estáticos desde la raíz
+// ✅ Servir archivos estáticos desde la raíz y la carpeta 'assets'
 app.use(express.static(__dirname))
+app.use('/assets', express.static(path.join(__dirname, 'assets'))) // ← ESTA LÍNEA NUEVA SIRVE LA CARPETA DE IMÁGENES
 
 // Ruta para servir el index.html
 app.get("/", (req, res) => {
@@ -45,6 +46,8 @@ app.post("/api/consulta-radicado", async (req, res) => {
 })
 
 // Ruta de prueba para verificar que el servidor está funcionando
+const PORT = process.env.PORT || 3000
+
 app.get("/api/test", (req, res) => {
   res.json({
     mensaje: "Servidor funcionando correctamente",
@@ -92,8 +95,7 @@ app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" })
 })
 
-const PORT = process.env.PORT || 3000
-
+// Iniciar servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
   console.log(`📋 API de consulta disponible en http://localhost:${PORT}/api/consulta-radicado`)
