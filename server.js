@@ -4,6 +4,7 @@ import express from "express"
 import cors from "cors"
 import path from "path"
 import { fileURLToPath } from "url"
+import { existsSync } from "fs"
 import consultaRadicadoHandler from "./api/consulta_radicado.js"
 
 const __filename = fileURLToPath(import.meta.url)
@@ -20,33 +21,50 @@ app.use(
       "http://localhost:5500",
       "http://127.0.0.1:5500",
       "https://camilomadrigal12.github.io",
-      "https://time-line-proyectos-lyart.vercel.app"
+      "https://time-line-proyectos-lyart.vercel.app",
+      "https://time-line-proyectos-git-master-camilomadrigal12s-projects.vercel.app"
     ],
     credentials: true,
   }),
 )
 app.use(express.json())
 
-// ✅ Configuración mejorada para archivos estáticos
-// Servir archivos estáticos con configuración específica
+// ✅ Middleware para servir archivos estáticos con logging
+app.use((req, res, next) => {
+  console.log(`📥 Solicitud: ${req.method} ${req.path}`)
+  next()
+})
+
+// ✅ Servir archivos estáticos desde assets con headers correctos
 app.use('/assets', express.static(path.join(__dirname, 'assets'), {
   maxAge: '1d',
-  etag: false
+  etag: false,
+  setHeaders: (res, path) => {
+    console.log(`📁 Sirviendo archivo estático: ${path}`)
+    res.setHeader('Cache-Control', 'public, max-age=86400')
+  }
 }))
 
-// Servir archivos estáticos desde la raíz con prioridad baja
+// ✅ Servir todos los archivos estáticos desde la raíz
 app.use(express.static(__dirname, {
   maxAge: '1d',
   etag: false,
-  index: false // Evitar que sirva index.html automáticamente
+  index: false,
+  setHeaders: (res, path) => {
+    if (path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.gif')) {
+      console.log(`🖼️ Sirviendo imagen: ${path}`)
+      res.setHeader('Cache-Control', 'public, max-age=86400')
+    }
+  }
 }))
 
 // API: Consulta de radicado
 app.post("/api/consulta-radicado", async (req, res) => {
   try {
+    console.log("📋 Procesando consulta de radicado...")
     await consultaRadicadoHandler(req, res)
   } catch (error) {
-    console.error("Error en consulta-radicado:", error)
+    console.error("❌ Error en consulta-radicado:", error)
     res.status(500).json({ error: "Error interno del servidor" })
   }
 })
@@ -58,61 +76,90 @@ app.get("/api/test", (req, res) => {
     timestamp: new Date().toISOString(),
     port: process.env.PORT || 3000,
     status: "OK",
+    environment: process.env.NODE_ENV || "development"
   })
 })
 
-// Ruta para servir el index.html
+// ✅ Función para buscar archivos HTML en cualquier ubicación
+function findHtmlFile(requestPath) {
+  // Limpiar la ruta
+  const cleanPath = requestPath.replace(/^\/+/, '').replace(/\/+$/, '')
+  
+  // Posibles ubicaciones del archivo
+  const possiblePaths = [
+    path.join(__dirname, `${cleanPath}.html`),
+    path.join(__dirname, cleanPath, 'index.html'),
+    path.join(__dirname, cleanPath)
+  ]
+  
+  // Buscar en subcarpetas también
+  const folders = ['Pilares', 'Plan de Desarrollo', 'Dependencias', 'diagnosticos', 'diagnostico_radicado', 'Ejecucion', 'Formulación']
+  
+  folders.forEach(folder => {
+    possiblePaths.push(path.join(__dirname, folder, `${cleanPath}.html`))
+    possiblePaths.push(path.join(__dirname, folder, cleanPath, 'index.html'))
+    
+    // Buscar en subcarpetas de Pilares
+    if (folder === 'Pilares') {
+      const subfolders = ['comunicaciones', 'DAP', 'desarrollo', 'educacion', 'gobierno', 'hacienda', 'infraestructura', 'invicop', 'junta', 'medioAmbiente', 'movilidad', 'salud', 'servicios']
+      subfolders.forEach(subfolder => {
+        possiblePaths.push(path.join(__dirname, folder, subfolder, `${cleanPath}.html`))
+      })
+    }
+  })
+  
+  // Encontrar el primer archivo que existe
+  for (const filePath of possiblePaths) {
+    if (existsSync(filePath)) {
+      console.log(`✅ Archivo encontrado: ${filePath}`)
+      return filePath
+    }
+  }
+  
+  console.log(`❌ Archivo no encontrado para: ${requestPath}`)
+  console.log(`🔍 Rutas buscadas:`, possiblePaths.slice(0, 5))
+  return null
+}
+
+// ✅ Ruta para servir el index.html
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"))
-})
-
-// Rutas para archivos HTML específicos
-const htmlFiles = [
-  "embudo.html",
-  "formulacion.html", 
-  "formulados.html",
-  "mapa.html",
-  "pilares.html",
-  "planDesarrollo.html",
-  "ProyectosPensados.html",
-  "radicados.html",
-  "timeLine.html",
-]
-
-htmlFiles.forEach((file) => {
-  app.get(`/${file}`, (req, res) => {
-    const filePath = path.join(__dirname, file)
-    res.sendFile(filePath, (err) => {
-      if (err) {
-        console.error(`Error sirviendo ${file}:`, err)
-        res.status(404).send(`Archivo ${file} no encontrado.`)
-      }
-    })
-  })
-})
-
-// Servir archivos HTML en subcarpetas
-app.get("*/:file", (req, res, next) => {
-  const filePath = path.join(__dirname, req.path)
-  if (filePath.endsWith(".html")) {
-    res.sendFile(filePath, (err) => {
-      if (err) {
-        console.error(`Error sirviendo archivo HTML ${req.path}:`, err)
-        res.status(404).send("Archivo HTML no encontrado.")
-      }
-    })
+  const indexPath = path.join(__dirname, "index.html")
+  if (existsSync(indexPath)) {
+    console.log("🏠 Sirviendo index.html")
+    res.sendFile(indexPath)
   } else {
-    next()
+    console.log("❌ index.html no encontrado")
+    res.status(404).send("Página principal no encontrada")
   }
 })
 
-// Middleware de manejo de errores 404
-app.use((req, res) => {
-  console.log(`❌ Ruta no encontrada: ${req.method} ${req.path}`)
-  res.status(404).json({ 
-    error: "Ruta no encontrada",
-    path: req.path,
-    method: req.method
+// ✅ Manejo dinámico de todas las rutas HTML
+app.get("*", (req, res) => {
+  const requestPath = req.path
+  
+  // Si es una solicitud de archivo estático, no procesarla aquí
+  if (requestPath.match(/\.(png|jpg|jpeg|gif|svg|ico|css|js|pdf|xlsx|json)$/)) {
+    return res.status(404).send("Archivo no encontrado")
+  }
+  
+  console.log(`🔍 Buscando archivo para ruta: ${requestPath}`)
+  
+  const filePath = findHtmlFile(requestPath)
+  
+  if (filePath) {
+    res.sendFile(filePath)
+  } else {
+    console.log(`❌ No se encontró archivo para: ${requestPath}`)
+    res.status(404).send(`Archivo ${requestPath} no encontrado.`)
+  }
+})
+
+// Middleware de manejo de errores
+app.use((err, req, res, next) => {
+  console.error("❌ Error del servidor:", err)
+  res.status(500).json({ 
+    error: "Error interno del servidor",
+    message: err.message 
   })
 })
 
