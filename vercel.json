@@ -2,29 +2,25 @@
   "version": 2,
   "builds": [
     {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "server.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/test-cors",
-      "dest": "/api/test-cors.js"
-    },
-    {
       "src": "/api/consulta-radicado",
       "dest": "/api/consulta_radicado.js"
     },
     {
+      "src": "/api/test-cors",
+      "dest": "/api/test-cors.js"
+    },
+    {
       "src": "/api/(.*)",
-      "dest": "/server.js"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/server.js"
-    },
-    {
-      "src": "/(.*\\.(png|jpg|jpeg|gif|svg|ico|css|js|pdf|xlsx|json))",
       "dest": "/server.js"
     },
     {
