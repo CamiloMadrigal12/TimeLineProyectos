@@ -12,7 +12,7 @@
   ],
   "routes": [
     {
-      "src": "/api/consulta-radicado",
+      "src": "/api/consulta_radicado",
       "dest": "/api/consulta_radicado.js"
     },
     {

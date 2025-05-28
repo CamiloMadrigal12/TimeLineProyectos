@@ -206,17 +206,17 @@
             let apiUrl;
             
             if (hostname.includes('netlify.app') || hostname.includes('netlify.com')) {
-                // Si estamos en Netlify, usar la API de Vercel
-                apiUrl = 'https://time-line-proyectos-lyart.vercel.app/api/consulta-radicado';
+                // ✅ CORREGIDO: Cambiar de consulta-radicado a consulta_radicado
+                apiUrl = 'https://time-line-proyectos-lyart.vercel.app/api/consulta_radicado';
             } else if (hostname.includes('vercel.app')) {
-                // Si estamos en Vercel, usar la API local
-                apiUrl = '/api/consulta-radicado';
+                // ✅ CORREGIDO: Cambiar de consulta-radicado a consulta_radicado
+                apiUrl = '/api/consulta_radicado';
             } else if (hostname === 'localhost' || hostname === '127.0.0.1') {
-                // Para desarrollo local
-                apiUrl = 'http://localhost:3000/api/consulta-radicado';
+                // ✅ CORREGIDO: Cambiar de consulta-radicado a consulta_radicado
+                apiUrl = 'http://localhost:3000/api/consulta_radicado';
             } else {
-                // Fallback - usar Vercel por defecto
-                apiUrl = 'https://time-line-proyectos-lyart.vercel.app/api/consulta-radicado';
+                // ✅ CORREGIDO: Cambiar de consulta-radicado a consulta_radicado
+                apiUrl = 'https://time-line-proyectos-lyart.vercel.app/api/consulta_radicado';
             }
             
             console.log('Consultando en:', apiUrl);

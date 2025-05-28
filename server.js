@@ -23,8 +23,8 @@ app.use(
       "https://camilomadrigal12.github.io",
       "https://time-line-proyectos-lyart.vercel.app",
       "https://time-line-proyectos-git-master-camilomadrigal12s-projects.vercel.app",
-      "https://time-line-proyectos-ten.vercel.app", // ✅ AGREGADO: Nuevo dominio de Vercel
-      "https://sistemainformaciondap.netlify.app", // ✅ AGREGADO: Dominio de Netlify
+      "https://time-line-proyectos-ten.vercel.app",
+      "https://sistemainformaciondap.netlify.app",
     ],
     credentials: true,
   }),
@@ -65,10 +65,21 @@ app.use(
   }),
 )
 
-// API: Consulta de radicado
-app.post("/api/consulta-radicado", async (req, res) => {
+// ✅ API: Consulta de radicado - CORREGIDO para usar guion bajo
+app.post("/api/consulta_radicado", async (req, res) => {
   try {
     console.log("📋 Procesando consulta de radicado...")
+    await consultaRadicadoHandler(req, res)
+  } catch (error) {
+    console.error("❌ Error en consulta_radicado:", error)
+    res.status(500).json({ error: "Error interno del servidor" })
+  }
+})
+
+// ✅ MANTENER COMPATIBILIDAD: También responder a la ruta con guion medio
+app.post("/api/consulta-radicado", async (req, res) => {
+  try {
+    console.log("📋 Procesando consulta de radicado (compatibilidad guion medio)...")
     await consultaRadicadoHandler(req, res)
   } catch (error) {
     console.error("❌ Error en consulta-radicado:", error)
@@ -198,7 +209,7 @@ const PORT = process.env.PORT || 3000
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
-    console.log(`📋 API de consulta disponible en http://localhost:${PORT}/api/consulta-radicado`)
+    console.log(`📋 API de consulta disponible en http://localhost:${PORT}/api/consulta_radicado`)
     console.log(`🧪 Endpoint de prueba: http://localhost:${PORT}/api/test`)
     console.log(`📁 Archivos estáticos servidos desde: ${__dirname}`)
   })
