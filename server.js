@@ -20,20 +20,26 @@ app.use(
       "http://localhost:5500",
       "http://127.0.0.1:5500",
       "https://camilomadrigal12.github.io",
+      "https://time-line-proyectos-lyart.vercel.app"
     ],
     credentials: true,
   }),
 )
 app.use(express.json())
 
-// ✅ Servir archivos estáticos desde la raíz y la carpeta 'assets'
-app.use(express.static(__dirname))
-app.use('/assets', express.static(path.join(__dirname, 'assets'))) // ← ESTA LÍNEA NUEVA SIRVE LA CARPETA DE IMÁGENES
+// ✅ Configuración mejorada para archivos estáticos
+// Servir archivos estáticos con configuración específica
+app.use('/assets', express.static(path.join(__dirname, 'assets'), {
+  maxAge: '1d',
+  etag: false
+}))
 
-// Ruta para servir el index.html
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"))
-})
+// Servir archivos estáticos desde la raíz con prioridad baja
+app.use(express.static(__dirname, {
+  maxAge: '1d',
+  etag: false,
+  index: false // Evitar que sirva index.html automáticamente
+}))
 
 // API: Consulta de radicado
 app.post("/api/consulta-radicado", async (req, res) => {
@@ -45,22 +51,25 @@ app.post("/api/consulta-radicado", async (req, res) => {
   }
 })
 
-// Ruta de prueba para verificar que el servidor está funcionando
-const PORT = process.env.PORT || 3000
-
+// Ruta de prueba
 app.get("/api/test", (req, res) => {
   res.json({
     mensaje: "Servidor funcionando correctamente",
     timestamp: new Date().toISOString(),
-    port: PORT,
+    port: process.env.PORT || 3000,
     status: "OK",
   })
 })
 
-// Rutas para archivos HTML en la raíz del proyecto
+// Ruta para servir el index.html
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"))
+})
+
+// Rutas para archivos HTML específicos
 const htmlFiles = [
   "embudo.html",
-  "formulacion.html",
+  "formulacion.html", 
   "formulados.html",
   "mapa.html",
   "pilares.html",
@@ -72,16 +81,23 @@ const htmlFiles = [
 
 htmlFiles.forEach((file) => {
   app.get(`/${file}`, (req, res) => {
-    res.sendFile(path.join(__dirname, file))
+    const filePath = path.join(__dirname, file)
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        console.error(`Error sirviendo ${file}:`, err)
+        res.status(404).send(`Archivo ${file} no encontrado.`)
+      }
+    })
   })
 })
 
-// Servir cualquier archivo HTML en cualquier subcarpeta
+// Servir archivos HTML en subcarpetas
 app.get("*/:file", (req, res, next) => {
   const filePath = path.join(__dirname, req.path)
   if (filePath.endsWith(".html")) {
     res.sendFile(filePath, (err) => {
       if (err) {
+        console.error(`Error sirviendo archivo HTML ${req.path}:`, err)
         res.status(404).send("Archivo HTML no encontrado.")
       }
     })
@@ -90,17 +106,26 @@ app.get("*/:file", (req, res, next) => {
   }
 })
 
-// Ruta no encontrada
+// Middleware de manejo de errores 404
 app.use((req, res) => {
-  res.status(404).json({ error: "Ruta no encontrada" })
+  console.log(`❌ Ruta no encontrada: ${req.method} ${req.path}`)
+  res.status(404).json({ 
+    error: "Ruta no encontrada",
+    path: req.path,
+    method: req.method
+  })
 })
 
-// Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
-  console.log(`📋 API de consulta disponible en http://localhost:${PORT}/api/consulta-radicado`)
-  console.log(`🧪 Endpoint de prueba: http://localhost:${PORT}/api/test`)
-  console.log(`📁 Archivos estáticos servidos desde: ${__dirname}`)
-})
+const PORT = process.env.PORT || 3000
+
+// Solo iniciar servidor en desarrollo local
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
+    console.log(`📋 API de consulta disponible en http://localhost:${PORT}/api/consulta-radicado`)
+    console.log(`🧪 Endpoint de prueba: http://localhost:${PORT}/api/test`)
+    console.log(`📁 Archivos estáticos servidos desde: ${__dirname}`)
+  })
+}
 
 export default app
