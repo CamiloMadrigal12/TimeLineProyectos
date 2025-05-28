@@ -16,10 +16,6 @@
       "dest": "/api/consulta_radicado.js"
     },
     {
-      "src": "/api/test-cors",
-      "dest": "/api/test-cors.js"
-    },
-    {
       "src": "/api/(.*)",
       "dest": "/server.js"
     },
