@@ -5,12 +5,17 @@ const EXCEL_URL =
   "https://copacabanagov-my.sharepoint.com/personal/lina_restrepo_copacabana_gov_co/_layouts/15/download.aspx?share=EcN3KQaGqONKswGD3lLdGFQBv2VbOX9bGh-2CDHTFzPbsA"
 
 export default async function handler(req, res) {
-  // ✅ Configurar headers CORS MEJORADOS para todas las respuestas
+  console.log("🚀 API consulta_radicado iniciada")
+  console.log("📍 Método:", req.method)
+  console.log("📍 Origen:", req.headers.origin)
+  console.log("📍 Headers:", Object.keys(req.headers))
+
+  // ✅ Lista actualizada de orígenes permitidos
   const allowedOrigins = [
-    "https://sistemainformaciondap.netlify.app", // ✅ AGREGADO: Dominio de Netlify
+    "https://sistemainformaciondap.netlify.app",
     "https://time-line-proyectos-lyart.vercel.app",
     "https://time-line-proyectos-git-master-camilomadrigal12s-projects.vercel.app",
-    "https://time-line-proyectos-ten.vercel.app", // ✅ AGREGADO: Nuevo dominio de Vercel
+    "https://time-line-proyectos-ten.vercel.app",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:5500",
@@ -19,23 +24,29 @@ export default async function handler(req, res) {
 
   const origin = req.headers.origin
 
+  // ✅ Configurar CORS headers SIEMPRE PRIMERO
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin)
+    console.log("✅ Origen permitido:", origin)
   } else {
     res.setHeader("Access-Control-Allow-Origin", "*")
+    console.log("⚠️ Origen no en lista, usando *:", origin)
   }
 
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS, GET")
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
   res.setHeader("Access-Control-Allow-Credentials", "true")
 
-  // Manejar preflight requests
+  console.log("✅ Headers CORS configurados")
+
+  // ✅ Manejar preflight requests ANTES de cualquier validación
   if (req.method === "OPTIONS") {
-    console.log("🔄 Preflight request recibido desde:", origin)
+    console.log("🔄 Preflight request recibido y respondido")
     return res.status(200).end()
   }
 
   if (req.method !== "POST") {
+    console.log("❌ Método no permitido:", req.method)
     return res.status(405).json({
       error: "Método no permitido",
       allowedMethods: ["POST"],
@@ -45,6 +56,7 @@ export default async function handler(req, res) {
   const { radicado } = req.body
 
   if (!radicado) {
+    console.log("❌ No se recibió radicado")
     return res.status(400).json({
       error: "No se recibió número de radicado",
       required: "radicado",
