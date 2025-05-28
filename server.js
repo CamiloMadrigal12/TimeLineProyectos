@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"))
 })
 
-// API Routes
+// API: Consulta de radicado
 app.post("/api/consulta-radicado", async (req, res) => {
   try {
     await consultaRadicadoHandler(req, res)
@@ -44,7 +44,7 @@ app.post("/api/consulta-radicado", async (req, res) => {
   }
 })
 
-// Ruta de prueba
+// Ruta de prueba para verificar que el servidor está funcionando
 app.get("/api/test", (req, res) => {
   res.json({
     mensaje: "Servidor funcionando correctamente",
@@ -54,7 +54,7 @@ app.get("/api/test", (req, res) => {
   })
 })
 
-// Servir archivos HTML específicos
+// Rutas para archivos HTML en la raíz del proyecto
 const htmlFiles = [
   "embudo.html",
   "formulacion.html",
@@ -65,7 +65,6 @@ const htmlFiles = [
   "ProyectosPensados.html",
   "radicados.html",
   "timeLine.html",
-  
 ]
 
 htmlFiles.forEach((file) => {
@@ -74,18 +73,23 @@ htmlFiles.forEach((file) => {
   })
 })
 
-// Manejar rutas no encontradas
-app.use((req, res) => {
-  if (req.path.endsWith(".html")) {
-    const filePath = path.join(__dirname, req.path)
+// Servir cualquier archivo HTML en cualquier subcarpeta
+app.get("*/:file", (req, res, next) => {
+  const filePath = path.join(__dirname, req.path)
+  if (filePath.endsWith(".html")) {
     res.sendFile(filePath, (err) => {
       if (err) {
-        res.status(404).json({ error: "Archivo no encontrado" })
+        res.status(404).send("Archivo HTML no encontrado.")
       }
     })
   } else {
-    res.status(404).json({ error: "Ruta no encontrada" })
+    next()
   }
+})
+
+// Ruta no encontrada
+app.use((req, res) => {
+  res.status(404).json({ error: "Ruta no encontrada" })
 })
 
 const PORT = process.env.PORT || 3000
