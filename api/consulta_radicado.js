@@ -7,52 +7,53 @@ const EXCEL_URL =
 export default async function handler(req, res) {
   // ✅ Configurar headers CORS MEJORADOS para todas las respuestas
   const allowedOrigins = [
-    "https://sistemainformaciondap.netlify.app",
-    "https://time-line-proyectos-lyart.vercel.app", 
+    "https://sistemainformaciondap.netlify.app", // ✅ AGREGADO: Dominio de Netlify
+    "https://time-line-proyectos-lyart.vercel.app",
     "https://time-line-proyectos-git-master-camilomadrigal12s-projects.vercel.app",
+    "https://time-line-proyectos-ten.vercel.app", // ✅ AGREGADO: Nuevo dominio de Vercel
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:5500",
-    "http://127.0.0.1:5500"
-  ];
+    "http://127.0.0.1:5500",
+  ]
 
-  const origin = req.headers.origin;
-  
+  const origin = req.headers.origin
+
   if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Origin", origin)
   } else {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "*")
   }
-  
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS, GET");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
+
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS, GET")
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+  res.setHeader("Access-Control-Allow-Credentials", "true")
 
   // Manejar preflight requests
   if (req.method === "OPTIONS") {
-    console.log("🔄 Preflight request recibido desde:", origin);
-    return res.status(200).end();
+    console.log("🔄 Preflight request recibido desde:", origin)
+    return res.status(200).end()
   }
 
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "Método no permitido",
       allowedMethods: ["POST"],
-    });
+    })
   }
 
-  const { radicado } = req.body;
+  const { radicado } = req.body
 
   if (!radicado) {
     return res.status(400).json({
       error: "No se recibió número de radicado",
       required: "radicado",
-    });
+    })
   }
 
   try {
-    console.log(`🔍 Consultando radicado: ${radicado} desde origen: ${origin}`);
-    console.log(`📡 URL de SharePoint: ${EXCEL_URL.substring(0, 50)}...`);
+    console.log(`🔍 Consultando radicado: ${radicado} desde origen: ${origin}`)
+    console.log(`📡 URL de SharePoint: ${EXCEL_URL.substring(0, 50)}...`)
 
     const response = await fetch(EXCEL_URL, {
       method: "GET",
@@ -65,75 +66,75 @@ export default async function handler(req, res) {
         Pragma: "no-cache",
       },
       timeout: 25000,
-    });
+    })
 
     if (!response.ok) {
-      console.error(`❌ Error al descargar archivo: ${response.status} ${response.statusText}`);
+      console.error(`❌ Error al descargar archivo: ${response.status} ${response.statusText}`)
       return res.status(500).json({
         error: "No se pudo descargar el archivo desde SharePoint",
         details: `HTTP ${response.status}: ${response.statusText}`,
         suggestion: "Verifica que el enlace de SharePoint sea válido y esté accesible",
-      });
+      })
     }
 
     console.log(
       `✅ Archivo descargado exitosamente. Tamaño: ${response.headers.get("content-length") || "desconocido"} bytes`,
-    );
+    )
 
-    const arrayBuffer = await response.arrayBuffer();
-    const data = new Uint8Array(arrayBuffer);
+    const arrayBuffer = await response.arrayBuffer()
+    const data = new Uint8Array(arrayBuffer)
 
-    console.log(`📊 Procesando archivo Excel de ${data.length} bytes`);
+    console.log(`📊 Procesando archivo Excel de ${data.length} bytes`)
 
-    const workbook = XLSX.read(data, { type: "array" });
-    console.log(`📋 Hojas disponibles: ${workbook.SheetNames.join(", ")}`);
+    const workbook = XLSX.read(data, { type: "array" })
+    console.log(`📋 Hojas disponibles: ${workbook.SheetNames.join(", ")}`)
 
-    const hojas = ["2025 CORRESPONDENCIA", "2024 CORRESPONDENCIA"];
-    let resultados = [];
-    let totalFilasProcesadas = 0;
+    const hojas = ["2025 CORRESPONDENCIA", "2024 CORRESPONDENCIA"]
+    let resultados = []
+    let totalFilasProcesadas = 0
 
     for (const nombreHoja of hojas) {
-      const worksheet = workbook.Sheets[nombreHoja];
+      const worksheet = workbook.Sheets[nombreHoja]
       if (!worksheet) {
-        console.warn(`⚠️ Hoja '${nombreHoja}' no encontrada`);
-        continue;
+        console.warn(`⚠️ Hoja '${nombreHoja}' no encontrada`)
+        continue
       }
 
       const jsonData = XLSX.utils.sheet_to_json(worksheet, {
         defval: "",
         raw: false,
-      });
+      })
 
-      totalFilasProcesadas += jsonData.length;
-      console.log(`📊 Procesando hoja '${nombreHoja}' con ${jsonData.length} filas`);
+      totalFilasProcesadas += jsonData.length
+      console.log(`📊 Procesando hoja '${nombreHoja}' con ${jsonData.length} filas`)
 
       if (jsonData.length > 0) {
-        console.log(`🔍 Columnas en '${nombreHoja}':`, Object.keys(jsonData[0]).slice(0, 5));
+        console.log(`🔍 Columnas en '${nombreHoja}':`, Object.keys(jsonData[0]).slice(0, 5))
       }
 
       const filtrados = jsonData.filter((row) => {
-        const radicadoRow = String(row["RADICADO"] || "").trim();
-        const radicadoBuscar = String(radicado).trim();
-        return radicadoRow === radicadoBuscar;
-      });
+        const radicadoRow = String(row["RADICADO"] || "").trim()
+        const radicadoBuscar = String(radicado).trim()
+        return radicadoRow === radicadoBuscar
+      })
 
       if (filtrados.length > 0) {
-        console.log(`✅ Encontrados ${filtrados.length} resultados en '${nombreHoja}'`);
-        filtrados.forEach((fila) => (fila.HOJA = nombreHoja));
-        resultados = resultados.concat(filtrados);
+        console.log(`✅ Encontrados ${filtrados.length} resultados en '${nombreHoja}'`)
+        filtrados.forEach((fila) => (fila.HOJA = nombreHoja))
+        resultados = resultados.concat(filtrados)
       }
     }
 
-    console.log(`📈 Total de filas procesadas: ${totalFilasProcesadas}`);
+    console.log(`📈 Total de filas procesadas: ${totalFilasProcesadas}`)
 
     if (resultados.length === 0) {
-      console.log(`❌ No se encontró el radicado: ${radicado}`);
+      console.log(`❌ No se encontró el radicado: ${radicado}`)
       return res.status(404).json({
         mensaje: "No se encontró el radicado",
         radicadoBuscado: radicado,
         hojasConsultadas: hojas,
         totalFilasProcesadas,
-      });
+      })
     }
 
     const datos = resultados.map((r) => ({
@@ -141,28 +142,28 @@ export default async function handler(req, res) {
       ESTADO: r["ESTADO"] || "",
       FECHA_DE_VENCIMIENTO: r["FECHA DE VENCIMIENTO"] || "",
       HOJA: r.HOJA || "",
-    }));
+    }))
 
-    console.log(`✅ Consulta exitosa para radicado: ${radicado}. Resultados: ${datos.length}`);
+    console.log(`✅ Consulta exitosa para radicado: ${radicado}. Resultados: ${datos.length}`)
 
     return res.status(200).json({
       datos,
       encontrado: true,
       totalResultados: datos.length,
       timestamp: new Date().toISOString(),
-    });
+    })
   } catch (error) {
-    console.error("❌ Error en consulta_radicado:", error);
+    console.error("❌ Error en consulta_radicado:", error)
 
-    let errorMessage = "Error interno del servidor";
-    let errorCode = 500;
+    let errorMessage = "Error interno del servidor"
+    let errorCode = 500
 
     if (error.name === "TypeError" && error.message.includes("fetch")) {
-      errorMessage = "Error de conexión con SharePoint";
-      errorCode = 503;
+      errorMessage = "Error de conexión con SharePoint"
+      errorCode = 503
     } else if (error.message.includes("timeout")) {
-      errorMessage = "Timeout al consultar SharePoint";
-      errorCode = 504;
+      errorMessage = "Timeout al consultar SharePoint"
+      errorCode = 504
     }
 
     return res.status(errorCode).json({
@@ -170,6 +171,6 @@ export default async function handler(req, res) {
       details: error.message,
       timestamp: new Date().toISOString(),
       suggestion: "Intenta nuevamente en unos momentos",
-    });
+    })
   }
 }

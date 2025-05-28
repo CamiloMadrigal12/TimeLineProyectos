@@ -22,7 +22,9 @@ app.use(
       "http://127.0.0.1:5500",
       "https://camilomadrigal12.github.io",
       "https://time-line-proyectos-lyart.vercel.app",
-      "https://time-line-proyectos-git-master-camilomadrigal12s-projects.vercel.app"
+      "https://time-line-proyectos-git-master-camilomadrigal12s-projects.vercel.app",
+      "https://time-line-proyectos-ten.vercel.app", // ✅ AGREGADO: Nuevo dominio de Vercel
+      "https://sistemainformaciondap.netlify.app", // ✅ AGREGADO: Dominio de Netlify
     ],
     credentials: true,
   }),
@@ -36,27 +38,32 @@ app.use((req, res, next) => {
 })
 
 // ✅ Servir archivos estáticos desde assets con headers correctos
-app.use('/assets', express.static(path.join(__dirname, 'assets'), {
-  maxAge: '1d',
-  etag: false,
-  setHeaders: (res, path) => {
-    console.log(`📁 Sirviendo archivo estático: ${path}`)
-    res.setHeader('Cache-Control', 'public, max-age=86400')
-  }
-}))
+app.use(
+  "/assets",
+  express.static(path.join(__dirname, "assets"), {
+    maxAge: "1d",
+    etag: false,
+    setHeaders: (res, path) => {
+      console.log(`📁 Sirviendo archivo estático: ${path}`)
+      res.setHeader("Cache-Control", "public, max-age=86400")
+    },
+  }),
+)
 
 // ✅ Servir todos los archivos estáticos desde la raíz
-app.use(express.static(__dirname, {
-  maxAge: '1d',
-  etag: false,
-  index: false,
-  setHeaders: (res, path) => {
-    if (path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.gif')) {
-      console.log(`🖼️ Sirviendo imagen: ${path}`)
-      res.setHeader('Cache-Control', 'public, max-age=86400')
-    }
-  }
-}))
+app.use(
+  express.static(__dirname, {
+    maxAge: "1d",
+    etag: false,
+    index: false,
+    setHeaders: (res, path) => {
+      if (path.endsWith(".png") || path.endsWith(".jpg") || path.endsWith(".jpeg") || path.endsWith(".gif")) {
+        console.log(`🖼️ Sirviendo imagen: ${path}`)
+        res.setHeader("Cache-Control", "public, max-age=86400")
+      }
+    },
+  }),
+)
 
 // API: Consulta de radicado
 app.post("/api/consulta-radicado", async (req, res) => {
@@ -76,38 +83,60 @@ app.get("/api/test", (req, res) => {
     timestamp: new Date().toISOString(),
     port: process.env.PORT || 3000,
     status: "OK",
-    environment: process.env.NODE_ENV || "development"
+    environment: process.env.NODE_ENV || "development",
   })
 })
 
 // ✅ Función para buscar archivos HTML en cualquier ubicación
 function findHtmlFile(requestPath) {
   // Limpiar la ruta
-  const cleanPath = requestPath.replace(/^\/+/, '').replace(/\/+$/, '')
-  
+  const cleanPath = requestPath.replace(/^\/+/, "").replace(/\/+$/, "")
+
   // Posibles ubicaciones del archivo
   const possiblePaths = [
     path.join(__dirname, `${cleanPath}.html`),
-    path.join(__dirname, cleanPath, 'index.html'),
-    path.join(__dirname, cleanPath)
+    path.join(__dirname, cleanPath, "index.html"),
+    path.join(__dirname, cleanPath),
   ]
-  
+
   // Buscar en subcarpetas también
-  const folders = ['Pilares', 'Plan de Desarrollo', 'Dependencias', 'diagnosticos', 'diagnostico_radicado', 'Ejecucion', 'Formulación']
-  
-  folders.forEach(folder => {
+  const folders = [
+    "Pilares",
+    "Plan de Desarrollo",
+    "Dependencias",
+    "diagnosticos",
+    "diagnostico_radicado",
+    "Ejecucion",
+    "Formulación",
+  ]
+
+  folders.forEach((folder) => {
     possiblePaths.push(path.join(__dirname, folder, `${cleanPath}.html`))
-    possiblePaths.push(path.join(__dirname, folder, cleanPath, 'index.html'))
-    
+    possiblePaths.push(path.join(__dirname, folder, cleanPath, "index.html"))
+
     // Buscar en subcarpetas de Pilares
-    if (folder === 'Pilares') {
-      const subfolders = ['comunicaciones', 'DAP', 'desarrollo', 'educacion', 'gobierno', 'hacienda', 'infraestructura', 'invicop', 'junta', 'medioAmbiente', 'movilidad', 'salud', 'servicios']
-      subfolders.forEach(subfolder => {
+    if (folder === "Pilares") {
+      const subfolders = [
+        "comunicaciones",
+        "DAP",
+        "desarrollo",
+        "educacion",
+        "gobierno",
+        "hacienda",
+        "infraestructura",
+        "invicop",
+        "junta",
+        "medioAmbiente",
+        "movilidad",
+        "salud",
+        "servicios",
+      ]
+      subfolders.forEach((subfolder) => {
         possiblePaths.push(path.join(__dirname, folder, subfolder, `${cleanPath}.html`))
       })
     }
   })
-  
+
   // Encontrar el primer archivo que existe
   for (const filePath of possiblePaths) {
     if (existsSync(filePath)) {
@@ -115,7 +144,7 @@ function findHtmlFile(requestPath) {
       return filePath
     }
   }
-  
+
   console.log(`❌ Archivo no encontrado para: ${requestPath}`)
   console.log(`🔍 Rutas buscadas:`, possiblePaths.slice(0, 5))
   return null
@@ -136,16 +165,16 @@ app.get("/", (req, res) => {
 // ✅ Manejo dinámico de todas las rutas HTML
 app.get("*", (req, res) => {
   const requestPath = req.path
-  
+
   // Si es una solicitud de archivo estático, no procesarla aquí
   if (requestPath.match(/\.(png|jpg|jpeg|gif|svg|ico|css|js|pdf|xlsx|json)$/)) {
     return res.status(404).send("Archivo no encontrado")
   }
-  
+
   console.log(`🔍 Buscando archivo para ruta: ${requestPath}`)
-  
+
   const filePath = findHtmlFile(requestPath)
-  
+
   if (filePath) {
     res.sendFile(filePath)
   } else {
@@ -157,16 +186,16 @@ app.get("*", (req, res) => {
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {
   console.error("❌ Error del servidor:", err)
-  res.status(500).json({ 
+  res.status(500).json({
     error: "Error interno del servidor",
-    message: err.message 
+    message: err.message,
   })
 })
 
 const PORT = process.env.PORT || 3000
 
 // Solo iniciar servidor en desarrollo local
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
     console.log(`📋 API de consulta disponible en http://localhost:${PORT}/api/consulta-radicado`)
