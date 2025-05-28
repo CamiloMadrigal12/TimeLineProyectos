@@ -186,103 +186,116 @@
         });
 
         async function consultarRadicado() {
-            const radicado = document.getElementById('inputRadicado').value.trim();
-            const resultadoDiv = document.getElementById('resultadoRadicado');
-            const loadingDiv = document.querySelector('.loading');
+        const radicado = document.getElementById('inputRadicado').value.trim();
+        const resultadoDiv = document.getElementById('resultadoRadicado');
+        const loadingDiv = document.querySelector('.loading');
+        
+        resultadoDiv.innerHTML = '';
+        loadingDiv.classList.remove('show');
+
+        if (!radicado) {
+            resultadoDiv.innerHTML = '<div class="alert alert-warning">Por favor ingresa un número de radicado</div>';
+            return;
+        }
+
+        loadingDiv.classList.add('show');
+
+        try {
+            // Usar ApiConfig para determinar la URL correcta según el entorno
+            const hostname = window.location.hostname;
+            let apiUrl;
             
-            resultadoDiv.innerHTML = '';
+            if (hostname.includes('netlify.app') || hostname.includes('netlify.com')) {
+                // Si estamos en Netlify, usar la API de Vercel
+                apiUrl = 'https://time-line-proyectos-lyart.vercel.app/api/consulta-radicado';
+            } else if (hostname.includes('vercel.app')) {
+                // Si estamos en Vercel, usar la API local
+                apiUrl = '/api/consulta-radicado';
+            } else if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                // Para desarrollo local
+                apiUrl = 'http://localhost:3000/api/consulta-radicado';
+            } else {
+                // Fallback - usar Vercel por defecto
+                apiUrl = 'https://time-line-proyectos-lyart.vercel.app/api/consulta-radicado';
+            }
+            
+            console.log('Consultando en:', apiUrl);
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ radicado })
+            });
+
             loadingDiv.classList.remove('show');
 
-            if (!radicado) {
-                resultadoDiv.innerHTML = '<div class="alert alert-warning">Por favor ingresa un número de radicado</div>';
+            if (response.status === 404) {
+                resultadoDiv.innerHTML = '<div class="alert alert-info">No se encontró el radicado</div>';
                 return;
             }
 
-            loadingDiv.classList.add('show');
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
 
-            try {
-                // Detectar si estamos en desarrollo o producción
-                const baseURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                    ? 'http://localhost:3000' 
-                    : window.location.origin;
+            const data = await response.json();
 
-                console.log('Consultando en:', `${baseURL}/api/consulta-radicado`);
+            if (!data.datos || data.datos.length === 0) {
+                resultadoDiv.innerHTML = '<div class="alert alert-info">No hay datos para mostrar</div>';
+                return;
+            }
 
-                const response = await fetch(`${baseURL}/api/consulta-radicado`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ radicado })
-                });
+            // Construir tabla con los datos
+            let html = '<div class="table-responsive"><table class="table table-bordered table-striped"><thead class="table-dark"><tr>';
+            html += '<th>Radicado</th><th>Estado</th><th>Fecha de Vencimiento</th><th>Año</th></tr></thead><tbody>';
 
-                loadingDiv.classList.remove('show');
-
-                if (response.status === 404) {
-                    resultadoDiv.innerHTML = '<div class="alert alert-info">No se encontró el radicado</div>';
-                    return;
-                }
-
-                if (!response.ok) {
-                    throw new Error(`Error ${response.status}: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-
-                if (!data.datos || data.datos.length === 0) {
-                    resultadoDiv.innerHTML = '<div class="alert alert-info">No hay datos para mostrar</div>';
-                    return;
-                }
-
-                // Construir tabla con los datos
-                let html = '<div class="table-responsive"><table class="table table-bordered table-striped"><thead class="table-dark"><tr>';
-                html += '<th>Radicado</th><th>Estado</th><th>Fecha de Vencimiento</th><th>Año</th></tr></thead><tbody>';
-
-                data.datos.forEach(row => {
-                    let fechaVencimiento = '';
-                    const fechaRaw = row['FECHA_DE_VENCIMIENTO'] ?? row.fecha_de_vencimiento ?? '';
-                    if (fechaRaw) {
-                        const fechaObj = new Date(fechaRaw);
-                        if (!isNaN(fechaObj)) {
-                            fechaVencimiento = fechaObj.toLocaleDateString('es-CO', {
-                                day: 'numeric',
-                                month: 'long',
-                                year: 'numeric'
-                            });
-                        }
+            data.datos.forEach(row => {
+                let fechaVencimiento = '';
+                const fechaRaw = row['FECHA_DE_VENCIMIENTO'] ?? row.fecha_de_vencimiento ?? '';
+                if (fechaRaw) {
+                    const fechaObj = new Date(fechaRaw);
+                    if (!isNaN(fechaObj)) {
+                        fechaVencimiento = fechaObj.toLocaleDateString('es-CO', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                        });
                     }
-
-                    const año = row.HOJA ? (row.HOJA.includes('2025') ? '2025' : '2024') : '';
-
-                    html += `<tr>
-                        <td><strong>${row.RADICADO ?? row.radicado ?? ''}</strong></td>
-                        <td><span class="badge bg-primary">${row.ESTADO ?? row.estado ?? ''}</span></td>
-                        <td>${fechaVencimiento}</td>
-                        <td><span class="badge bg-secondary">${año}</span></td>
-                    </tr>`;
-                });
-
-                html += '</tbody></table></div>';
-                html += '<div class="alert alert-success mt-3"><i class="bi bi-check-circle"></i> Consulta realizada exitosamente</div>';
-                
-                resultadoDiv.innerHTML = html;
-
-            } catch (error) {
-                loadingDiv.classList.remove('show');
-                console.error('Error en consulta:', error);
-                
-                if (error.message.includes('Failed to fetch')) {
-                    resultadoDiv.innerHTML = '<div class="alert alert-danger"><strong>Error de conexión:</strong> No se puede conectar al servidor. Asegúrate de que el backend esté ejecutándose.</div>';
-                } else {
-                    resultadoDiv.innerHTML = `<div class="alert alert-danger"><strong>Error:</strong> ${error.message}</div>`;
                 }
+
+                const año = row.HOJA ? (row.HOJA.includes('2025') ? '2025' : '2024') : '';
+
+                html += `<tr>
+                    <td><strong>${row.RADICADO ?? row.radicado ?? ''}</strong></td>
+                    <td><span class="badge bg-primary">${row.ESTADO ?? row.estado ?? ''}</span></td>
+                    <td>${fechaVencimiento}</td>
+                    <td><span class="badge bg-secondary">${año}</span></td>
+                </tr>`;
+            });
+
+            html += '</tbody></table></div>';
+            html += '<div class="alert alert-success mt-3"><i class="bi bi-check-circle"></i> Consulta realizada exitosamente</div>';
+            
+            resultadoDiv.innerHTML = html;
+
+        } catch (error) {
+            loadingDiv.classList.remove('show');
+            console.error('Error en consulta:', error);
+            
+            if (error.message.includes('Failed to fetch')) {
+                resultadoDiv.innerHTML = '<div class="alert alert-danger"><strong>Error de conexión:</strong> No se puede conectar al servidor. Asegúrate de que el backend esté ejecutándose.</div>';
+            } else {
+                resultadoDiv.innerHTML = `<div class="alert alert-danger"><strong>Error:</strong> ${error.message}</div>`;
             }
         }
+    }
 
-        // Permitir consulta con Enter
-        document.getElementById('inputRadicado').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                consultarRadicado();
-            }
-        });
+    // Permitir consulta con Enter
+    document.getElementById('inputRadicado').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            consultarRadicado();
+        }
+    });
     </script>
 
 </body>
