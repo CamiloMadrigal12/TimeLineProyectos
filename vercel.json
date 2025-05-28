@@ -20,11 +20,6 @@
       "dest": "/server.js"
     }
   ],
-  "functions": {
-    "api/consulta_radicado.js": {
-      "maxDuration": 30
-    }
-  },
   "env": {
     "NODE_ENV": "production"
   }
