@@ -19,7 +19,7 @@
         <br><br><br>
         <h2 class="text-center mb-4">Departamento Administrativo de Planeación</h2>
 
-        <div class="row justify-content-center"> 
+        <div class="row justify-content-center">
             <div class="col-md-4 col-sm-6 col-12 mb-3">
                 <div class="card">
                     <img src="assets/img/plan.png" alt="Imagen Proyecto 3">
@@ -65,31 +65,33 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4 col-sm-6 col-12 mb-3">
                 <div class="card">
                     <img src="assets/img/radicados.jpeg" alt="img">
                     <div class="card-body text-center">
                         <h5 class="card-title">Radicados</h5>
-                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRadicado">Ver más</a>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRadicado">Ver
+                            más</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    
+
     <div class="modal fade" id="modalRadicado" tabindex="-1" aria-labelledby="modalRadicadoLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalRadicadoLabel">Consulta de Radicado</h5>
+                    <h5 class="modal-title" id="modalRadicadoLabel">Consulta de Radicado / Licencia</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="inputRadicado" class="form-label">Número de Radicado:</label>
-                        <input type="text" id="inputRadicado" class="form-control" placeholder="Ingresa el número de radicado">
+                        <label for="inputRadicado" class="form-label">Número de Radicado/Licencia:</label>
+                        <input type="text" id="inputRadicado" class="form-control"
+                            placeholder="Ingresa el número de radicado/licencia">
                     </div>
                     <div class="loading text-center" style="display: none;">
                         <div class="spinner-border text-primary" role="status">
@@ -106,6 +108,27 @@
             </div>
         </div>
     </div>
+    <!-- Modal para mostrar información del decreto (solo para licencias) -->
+    <div class="modal fade" id="modalDecreto" tabindex="-1" aria-labelledby="modalDecretoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDecretoLabel">Información Legal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <strong>Decreto 1077 de 2015, Artículo 2.2.6.1.2.3.1:</strong><br>
+                        El término para resolver las solicitudes de licencias, tendrán un plazo máximo de cuarenta y
+                        cinco (45) días hábiles.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
 
@@ -117,23 +140,23 @@
         document.addEventListener("DOMContentLoaded", function () {
             let repoName = "/TimeLineProyectos"; // Nombre del repositorio en GitHub Pages
             let path = window.location.pathname;
-    
-            // Ajusta el path para eliminar el nombre del repo y obtener la ruta real del archivo
+
+
             let relativePath = path.startsWith(repoName) ? path.replace(repoName, "") : path;
-    
+
             // Páginas que están en la raíz del proyecto
             let rootPages = ["/", "/index.html", "/embudo.html", "/formulacion.html", "/formulados.html", "/mapa.html", "/pilares.html", "/planDesarrollo.html", "/ProyectosPensados.html", "/radicados.html", "/timeLine.html"];
             let isRoot = rootPages.includes(relativePath);
-    
+
             // Calcula la profundidad del archivo dentro de la estructura de carpetas
             let depth = isRoot ? 0 : relativePath.split("/").length - 2;
             let prefix = depth > 0 ? "../".repeat(depth) : "";
-    
+
             // Ruta corregida del header
             let headerPath = "https://camilomadrigal12.github.io/TimeLineProyectos/header.html";
-    
-            console.log("Ruta generada para el header:", headerPath); // Verifica en la consola
-    
+
+            console.log("Ruta generada para el header:", headerPath);
+
             fetch(headerPath)
                 .then(response => {
                     if (!response.ok) {
@@ -143,7 +166,7 @@
                 })
                 .then(data => {
                     document.getElementById("header").innerHTML = data;
-    
+
                     setTimeout(() => {
                         let logo = document.querySelector("#header #logo");
                         if (logo) {
@@ -161,52 +184,98 @@
                 .catch(error => console.error("Error cargando el header:", error));
         });
 
+        // Función para detectar si es radicado o licencia
+        function detectarTipoConsulta(numero) {
+            const numeroStr = numero.toString().trim();
+
+            // <CHANGE> Detectar formato de licencia XXX-25 (3 dígitos + guión + 25)
+            const formatoLicencia = /^\d{3}-25$/;
+
+            if (formatoLicencia.test(numeroStr)) {
+                console.log('[v0] Detectado como licencia:', numeroStr);
+                return 'licencia';
+            }
+
+            console.log('[v0] Detectado como radicado:', numeroStr);
+            return 'radicado';
+        }
+
+        // Función para consultar licencias
+        async function consultarLicencia(licencia) {
+            const hostname = window.location.hostname;
+            let apiUrl;
+
+            if (hostname.includes('netlify.app') || hostname.includes('netlify.com')) {
+                apiUrl = 'https://time-line-proyectos-ten.vercel.app/api/consulta_licencia';
+            } else if (hostname.includes('vercel.app')) {
+                apiUrl = '/api/consulta_licencia';
+            } else if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                apiUrl = 'http://localhost:3000/api/consulta_licencia';
+            } else {
+                apiUrl = 'https://time-line-proyectos-ten.vercel.app/api/consulta_licencia';
+            }
+
+            console.log('Consultando licencia en:', apiUrl);
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ licencia })
+            });
+
+            return response;
+        }
+
         async function consultarRadicado() {
-            const radicado = document.getElementById('inputRadicado').value.trim();
+            const numero = document.getElementById('inputRadicado').value.trim();
             const resultadoDiv = document.getElementById('resultadoRadicado');
             const loadingDiv = document.querySelector('.loading');
-            
+
             resultadoDiv.innerHTML = '';
             loadingDiv.style.display = 'none';
 
-            if (!radicado) {
-                resultadoDiv.innerHTML = '<div class="alert alert-warning">Por favor ingresa un número de radicado</div>';
+            if (!numero) {
+                resultadoDiv.innerHTML = '<div class="alert alert-warning">Por favor ingresa un número de radicado o licencia</div>';
                 return;
             }
 
             loadingDiv.style.display = 'block';
 
             try {
-                // ✅ CORREGIDO: Usar el dominio correcto según el entorno
-                const hostname = window.location.hostname;
-                let apiUrl;
-                
-                if (hostname.includes('netlify.app') || hostname.includes('netlify.com')) {
-                    // ✅ CORREGIDO: Usar el dominio principal de Vercel (ten en lugar de lyart)
-                    apiUrl = 'https://time-line-proyectos-ten.vercel.app/api/consulta_radicado';
-                } else if (hostname.includes('vercel.app')) {
-                    // ✅ CORREGIDO: Usar ruta relativa en Vercel
-                    apiUrl = '/api/consulta_radicado';
-                } else if (hostname === 'localhost' || hostname === '127.0.0.1') {
-                    // ✅ CORREGIDO: Usar localhost para desarrollo local
-                    apiUrl = 'http://localhost:3000/api/consulta_radicado';
-                } else {
-                    // ✅ CORREGIDO: Usar el dominio principal como fallback
-                    apiUrl = 'https://time-line-proyectos-ten.vercel.app/api/consulta_radicado';
-                }
-                
-                console.log('Consultando en:', apiUrl);
+                // Detectar si es radicado o licencia
+                const tipoConsulta = detectarTipoConsulta(numero);
+                let response;
 
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ radicado })
-                });
+                if (tipoConsulta === 'licencia') {
+                    response = await consultarLicencia(numero);
+                } else {
+                    // Consulta de radicado (código original)
+                    const hostname = window.location.hostname;
+                    let apiUrl;
+
+                    if (hostname.includes('netlify.app') || hostname.includes('netlify.com')) {
+                        apiUrl = 'https://time-line-proyectos-ten.vercel.app/api/consulta_radicado';
+                    } else if (hostname.includes('vercel.app')) {
+                        apiUrl = '/api/consulta_radicado';
+                    } else if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                        apiUrl = 'http://localhost:3000/api/consulta_radicado';
+                    } else {
+                        apiUrl = 'https://time-line-proyectos-ten.vercel.app/api/consulta_radicado';
+                    }
+
+                    console.log('Consultando en:', apiUrl);
+
+                    response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ radicado: numero })
+                    });
+                }
 
                 loadingDiv.style.display = 'none';
 
                 if (response.status === 404) {
-                    resultadoDiv.innerHTML = '<div class="alert alert-info">No se encontró el radicado</div>';
+                    resultadoDiv.innerHTML = `<div class="alert alert-info">No se encontró ${tipoConsulta === 'licencia' ? 'la licencia' : 'el radicado'}</div>`;
                     return;
                 }
 
@@ -223,7 +292,12 @@
 
                 // Construir tabla con los datos
                 let html = '<div class="table-responsive"><table class="table table-bordered table-striped"><thead class="table-dark"><tr>';
-                html += '<th>Radicado</th><th>Estado</th><th>Fecha de Vencimiento</th><th>Año</th></tr></thead><tbody>';
+
+                if (tipoConsulta === 'licencia') {
+                    html += '<th>Licencia</th><th>Estado</th><th>Fecha de Vencimiento</th><th>Año</th></tr></thead><tbody>';
+                } else {
+                    html += '<th>Radicado</th><th>Estado</th><th>Fecha de Vencimiento</th><th>Año</th></tr></thead><tbody>';
+                }
 
                 data.datos.forEach(row => {
                     let fechaVencimiento = '';
@@ -241,23 +315,40 @@
 
                     const año = row.HOJA ? (row.HOJA.includes('2025') ? '2025' : '2024') : '';
 
-                    html += `<tr>
-                        <td><strong>${row.RADICADO ?? row.radicado ?? ''}</strong></td>
-                        <td><span class="badge bg-primary">${row.ESTADO ?? row.estado ?? ''}</span></td>
-                        <td>${fechaVencimiento}</td>
-                        <td><span class="badge bg-secondary">${año}</span></td>
-                    </tr>`;
+                    if (tipoConsulta === 'licencia') {
+                        html += `<tr>
+                    <td><strong>${row.LICENCIA ?? row.licencia ?? row.RDO ?? ''}</strong></td>
+                    <td><span class="badge bg-primary">${row.ESTADO ?? row.estado ?? ''}</span></td>
+                    <td>${fechaVencimiento}</td>
+                    <td><span class="badge bg-secondary">${año}</span></td>
+                </tr>`;
+                    } else {
+                        html += `<tr>
+                    <td><strong>${row.RADICADO ?? row.radicado ?? ''}</strong></td>
+                    <td><span class="badge bg-primary">${row.ESTADO ?? row.estado ?? ''}</span></td>
+                    <td>${fechaVencimiento}</td>
+                    <td><span class="badge bg-secondary">${año}</span></td>
+                </tr>`;
+                    }
                 });
 
                 html += '</tbody></table></div>';
                 html += '<div class="alert alert-success mt-3"><i class="bi bi-check-circle"></i> Consulta realizada exitosamente</div>';
-                
+
                 resultadoDiv.innerHTML = html;
+
+                // Mostrar popup del decreto solo para licencias
+                if (tipoConsulta === 'licencia') {
+                    setTimeout(() => {
+                        const modalDecreto = new bootstrap.Modal(document.getElementById('modalDecreto'));
+                        modalDecreto.show();
+                    }, 500);
+                }
 
             } catch (error) {
                 loadingDiv.style.display = 'none';
                 console.error('Error en consulta:', error);
-                
+
                 if (error.message.includes('Failed to fetch')) {
                     resultadoDiv.innerHTML = '<div class="alert alert-danger"><strong>Error de conexión:</strong> No se puede conectar al servidor. Asegúrate de que el backend esté ejecutándose.</div>';
                 } else {
@@ -267,11 +358,13 @@
         }
 
         // Permitir consulta con Enter
-        document.getElementById('inputRadicado').addEventListener('keypress', function(e) {
+        document.getElementById('inputRadicado').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 consultarRadicado();
             }
         });
+
+
     </script>
 
 </body>

@@ -6,6 +6,7 @@ import path from "path"
 import { fileURLToPath } from "url"
 import { existsSync } from "fs"
 import consultaRadicadoHandler from "./api/consulta_radicado.js"
+import consultaLicenciaHandler from "./api/consulta_licencia.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -20,6 +21,8 @@ app.use(
       "http://127.0.0.1:3000",
       "http://localhost:5500",
       "http://127.0.0.1:5500",
+      "http://localhost:5502",
+      "http://127.0.0.1:5502",
       "https://camilomadrigal12.github.io",
       "https://time-line-proyectos-lyart.vercel.app",
       "https://time-line-proyectos-git-master-camilomadrigal12s-projects.vercel.app",
@@ -76,6 +79,17 @@ app.post("/api/consulta_radicado", async (req, res) => {
   }
 })
 
+// ✅ API: Consulta de licencia
+app.post("/api/consulta_licencia", async (req, res) => {
+  try {
+    console.log("📋 Procesando consulta de licencia...")
+    await consultaLicenciaHandler(req, res)
+  } catch (error) {
+    console.error("❌ Error en consulta_licencia:", error)
+    res.status(500).json({ error: "Error interno del servidor" })
+  }
+})
+
 // ✅ MANTENER COMPATIBILIDAD: También responder a la ruta con guion medio
 app.post("/api/consulta-radicado", async (req, res) => {
   try {
@@ -83,6 +97,17 @@ app.post("/api/consulta-radicado", async (req, res) => {
     await consultaRadicadoHandler(req, res)
   } catch (error) {
     console.error("❌ Error en consulta-radicado:", error)
+    res.status(500).json({ error: "Error interno del servidor" })
+  }
+})
+
+// ✅ MANTENER COMPATIBILIDAD: También responder a la ruta con guion medio para licencias
+app.post("/api/consulta-licencia", async (req, res) => {
+  try {
+    console.log("📋 Procesando consulta de licencia (compatibilidad guion medio)...")
+    await consultaLicenciaHandler(req, res)
+  } catch (error) {
+    console.error("❌ Error en consulta-licencia:", error)
     res.status(500).json({ error: "Error interno del servidor" })
   }
 })
@@ -210,6 +235,7 @@ if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
     console.log(`📋 API de consulta disponible en http://localhost:${PORT}/api/consulta_radicado`)
+    console.log(`📋 API de consulta de licencias disponible en http://localhost:${PORT}/api/consulta_licencia`)
     console.log(`🧪 Endpoint de prueba: http://localhost:${PORT}/api/test`)
     console.log(`📁 Archivos estáticos servidos desde: ${__dirname}`)
   })

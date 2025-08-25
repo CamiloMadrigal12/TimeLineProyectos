@@ -1,16 +1,10 @@
 import fetch from "node-fetch"
 import * as XLSX from "xlsx"
 
-const EXCEL_URL =
-  "https://copacabanagov-my.sharepoint.com/personal/lina_restrepo_copacabana_gov_co/_layouts/15/download.aspx?share=EcN3KQaGqONKswGD3lLdGFQBv2VbOX9bGh-2CDHTFzPbsA"
+const EXCEL_URL_LICENCIAS =
+  "https://copacabanagov-my.sharepoint.com/personal/lina_restrepo_copacabana_gov_co/_layouts/15/download.aspx?share=EUXjiKzG-KBHk1vCi7GxfaoBZ9_6pcw6mLcc1dszbrWDKQ"
 
 export default async function handler(req, res) {
-  console.log("🚀 API consulta_radicado iniciada")
-  console.log("📍 Método:", req.method)
-  console.log("📍 Origen:", req.headers.origin)
-  console.log("📍 Headers:", Object.keys(req.headers))
-
-  // ✅ Lista actualizada de orígenes permitidos
   const allowedOrigins = [
     "https://sistemainformaciondap.netlify.app",
     "https://time-line-proyectos-lyart.vercel.app",
@@ -22,55 +16,42 @@ export default async function handler(req, res) {
     "http://127.0.0.1:5500",
     "http://localhost:5502",
     "http://127.0.0.1:5502",
-
   ]
 
   const origin = req.headers.origin
 
-  // ✅ Configurar CORS headers SIEMPRE PRIMERO
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin)
-    console.log("✅ Origen permitido:", origin)
   } else {
     res.setHeader("Access-Control-Allow-Origin", "*")
-    console.log("⚠️ Origen no en lista, usando *:", origin)
   }
 
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS, GET")
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
   res.setHeader("Access-Control-Allow-Credentials", "true")
 
-  console.log("✅ Headers CORS configurados")
-
-  // ✅ Manejar preflight requests ANTES de cualquier validación
   if (req.method === "OPTIONS") {
-    console.log("🔄 Preflight request recibido y respondido")
     return res.status(200).end()
   }
 
   if (req.method !== "POST") {
-    console.log("❌ Método no permitido:", req.method)
     return res.status(405).json({
       error: "Método no permitido",
       allowedMethods: ["POST"],
     })
   }
 
-  const { radicado } = req.body
+  const { licencia } = req.body
 
-  if (!radicado) {
-    console.log("❌ No se recibió radicado")
+  if (!licencia) {
     return res.status(400).json({
-      error: "No se recibió número de radicado",
-      required: "radicado",
+      error: "No se recibió número de licencia",
+      required: "licencia",
     })
   }
 
   try {
-    console.log(`🔍 Consultando radicado: ${radicado} desde origen: ${origin}`)
-    console.log(`📡 URL de SharePoint: ${EXCEL_URL.substring(0, 50)}...`)
-
-    const response = await fetch(EXCEL_URL, {
+    const response = await fetch(EXCEL_URL_LICENCIAS, {
       method: "GET",
       headers: {
         "User-Agent":
@@ -84,7 +65,7 @@ export default async function handler(req, res) {
     })
 
     if (!response.ok) {
-      console.error(`❌ Error al descargar archivo: ${response.status} ${response.statusText}`)
+      console.error(`Error al descargar archivo: ${response.status} ${response.statusText}`)
       return res.status(500).json({
         error: "No se pudo descargar el archivo desde SharePoint",
         details: `HTTP ${response.status}: ${response.statusText}`,
@@ -92,83 +73,91 @@ export default async function handler(req, res) {
       })
     }
 
-    console.log(
-      `✅ Archivo descargado exitosamente. Tamaño: ${response.headers.get("content-length") || "desconocido"} bytes`,
-    )
-
     const arrayBuffer = await response.arrayBuffer()
     const data = new Uint8Array(arrayBuffer)
 
-    console.log(`📊 Procesando archivo Excel de ${data.length} bytes`)
-
     const workbook = XLSX.read(data, { type: "array" })
-    console.log(`📋 Hojas disponibles: ${workbook.SheetNames.join(", ")}`)
 
-    const hojas = ["2025 CORRESPONDENCIA", "2024 CORRESPONDENCIA"]
+    // Buscar hojas que contengan 2024 o 2025 en el nombre
+    const hojasDisponibles = workbook.SheetNames.filter((nombre) => nombre.includes("2024") || nombre.includes("2025"))
+
+    // Si no encontramos hojas específicas, usar las que encontramos
+    const hojas = hojasDisponibles.length > 0 ? hojasDisponibles : ["2025", "2024"]
+
     let resultados = []
     let totalFilasProcesadas = 0
 
     for (const nombreHoja of hojas) {
       const worksheet = workbook.Sheets[nombreHoja]
       if (!worksheet) {
-        console.warn(`⚠️ Hoja '${nombreHoja}' no encontrada`)
         continue
       }
 
-      const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+      const arrayData = XLSX.utils.sheet_to_json(worksheet, {
+        header: 1, // Usar números como encabezados (array de arrays)
         defval: "",
         raw: false,
       })
 
-      totalFilasProcesadas += jsonData.length
-      console.log(`📊 Procesando hoja '${nombreHoja}' con ${jsonData.length} filas`)
+      const dataFiltrada = arrayData.filter(
+        (row) => row && row.length > 0 && row.some((cell) => cell && cell.toString().trim() !== ""),
+      )
 
-      if (jsonData.length > 0) {
-        console.log(`🔍 Columnas en '${nombreHoja}':`, Object.keys(jsonData[0]).slice(0, 5))
-      }
+      totalFilasProcesadas += dataFiltrada.length
 
-      const filtrados = jsonData.filter((row) => {
-        const radicadoRow = String(row["RADICADO"] || "").trim()
-        const radicadoBuscar = String(radicado).trim()
-        return radicadoRow === radicadoBuscar
+      const filtrados = dataFiltrada.filter((row) => {
+        if (!row || row.length === 0) return false
+
+        const licenciaRow = String(row[0] || "").trim() // Columna A (posición 0)
+        const licenciaBuscar = String(licencia).trim()
+
+        return licenciaRow === licenciaBuscar
       })
 
       if (filtrados.length > 0) {
-        console.log(`✅ Encontrados ${filtrados.length} resultados en '${nombreHoja}'`)
-        filtrados.forEach((fila) => (fila.HOJA = nombreHoja))
-        resultados = resultados.concat(filtrados)
+        const resultadosFormateados = filtrados.map((row) => ({
+          RDO: row[0] || "", // Columna A
+          "F.L. REV.": row[38] || "", // Columna AM
+          ESTADO: row[39] || "", // Columna AN
+          HOJA: nombreHoja,
+        }))
+
+        resultados = resultados.concat(resultadosFormateados)
       }
     }
 
-    console.log(`📈 Total de filas procesadas: ${totalFilasProcesadas}`)
-
     if (resultados.length === 0) {
-      console.log(`❌ No se encontró el radicado: ${radicado}`)
       return res.status(404).json({
-        mensaje: "No se encontró el radicado",
-        radicadoBuscado: radicado,
+        mensaje: "No se encontró la licencia",
+        licenciaBuscada: licencia,
         hojasConsultadas: hojas,
         totalFilasProcesadas,
       })
     }
 
     const datos = resultados.map((r) => ({
-      RADICADO: r["RADICADO"] || "",
+      LICENCIA: r["RDO"] || "",
       ESTADO: r["ESTADO"] || "",
-      FECHA_DE_VENCIMIENTO: r["FECHA DE VENCIMIENTO"] || "",
+      FECHA_DE_VENCIMIENTO: r["F.L. REV."] || "",
       HOJA: r.HOJA || "",
+      ANO: r.HOJA
+        ? r.HOJA.includes("2025")
+          ? "2025"
+          : r.HOJA.includes("2024")
+            ? "2024"
+            : new Date().getFullYear().toString()
+        : new Date().getFullYear().toString(),
     }))
-
-    console.log(`✅ Consulta exitosa para radicado: ${radicado}. Resultados: ${datos.length}`)
 
     return res.status(200).json({
       datos,
       encontrado: true,
       totalResultados: datos.length,
       timestamp: new Date().toISOString(),
+      tipo: "licencia", // Identificador para el frontend
     })
   } catch (error) {
-    console.error("❌ Error en consulta_radicado:", error)
+    console.error("Error en consulta_licencia:", error)
 
     let errorMessage = "Error interno del servidor"
     let errorCode = 500
