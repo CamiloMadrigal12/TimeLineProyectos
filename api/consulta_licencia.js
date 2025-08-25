@@ -51,7 +51,7 @@ export default async function handler(req, res) {
     console.log(`[v0] Iniciando consulta para licencia: ${licencia}`)
 
     const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 25000)
+    const timeoutId = setTimeout(() => controller.abort(), 45000)
 
     const response = await fetch(EXCEL_URL_LICENCIAS, {
       method: "GET",
@@ -81,9 +81,22 @@ export default async function handler(req, res) {
     console.log(`[v0] Archivo descargado exitosamente`)
 
     const arrayBuffer = await response.arrayBuffer()
+    console.log(`[v0] Tamaño del archivo: ${(arrayBuffer.byteLength / 1024 / 1024).toFixed(2)} MB`)
+
     const data = new Uint8Array(arrayBuffer)
 
-    const XLSX = await import("xlsx")
+    let XLSX
+    try {
+      XLSX = await import("xlsx")
+    } catch (importError) {
+      console.error(`[v0] Error importing XLSX:`, importError)
+      return res.status(500).json({
+        error: "Error al cargar la librería de procesamiento de Excel",
+        details: importError.message,
+        suggestion: "Intenta nuevamente en unos momentos",
+      })
+    }
+
     const workbook = XLSX.read(data, { type: "array" })
 
     console.log(`[v0] Hojas disponibles: ${workbook.SheetNames.join(", ")}`)
@@ -182,7 +195,7 @@ export default async function handler(req, res) {
     let errorCode = 500
 
     if (error.name === "AbortError") {
-      errorMessage = "Timeout al consultar SharePoint - La consulta tardó más de 25 segundos"
+      errorMessage = "Timeout al consultar SharePoint - La consulta tardó más de 45 segundos"
       errorCode = 504
     } else if (error.name === "TypeError" && error.message.includes("fetch")) {
       errorMessage = "Error de conexión con SharePoint"
@@ -193,6 +206,9 @@ export default async function handler(req, res) {
     } else if (error.message.includes("XLSX")) {
       errorMessage = "Error al procesar el archivo Excel"
       errorCode = 500
+    } else if (error.message.includes("memory") || error.message.includes("heap")) {
+      errorMessage = "Archivo demasiado grande para procesar"
+      errorCode = 413
     }
 
     return res.status(errorCode).json({
