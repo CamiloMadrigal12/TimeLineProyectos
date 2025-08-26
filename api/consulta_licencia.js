@@ -2,7 +2,7 @@ import fetch from "node-fetch"
 import * as XLSX from "xlsx"
 
 const EXCEL_URL_LICENCIAS =
-  "https://copacabanagov-my.sharepoint.com/:x:/g/personal/lina_restrepo_copacabana_gov_co/EUXjiKzG-KBHk1vCi7GxfaoBMs44rkLEsJtkmtCYOcFV_Q?e=qsNdvM"
+  "https://copacabanagov-my.sharepoint.com/:x:/g/personal/lina_restrepo_copacabana_gov_co/EUXjiKzG-KBHk1vCi7GxfaoBfDKP9JQMGd7j_4K5_SzO7w?e=HEee6j"
 
 export default async function handler(req, res) {
   const allowedOrigins = [

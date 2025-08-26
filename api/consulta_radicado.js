@@ -2,7 +2,7 @@ import fetch from "node-fetch"
 import * as XLSX from "xlsx"
 
 const EXCEL_URL =
-  "https://copacabanagov-my.sharepoint.com/:x:/g/personal/lina_restrepo_copacabana_gov_co/EcN3KQaGqONKswGD3lLdGFQBroFfNhq8g5p5Z21ztmhBhQ?e=59bjaD"
+  "https://copacabanagov-my.sharepoint.com/:x:/g/personal/lina_restrepo_copacabana_gov_co/EcN3KQaGqONKswGD3lLdGFQBqQQnLabMWBp7NKkyinomkw?e=AtBk9F"
 
 export default async function handler(req, res) {
   console.log("🚀 API consulta_radicado iniciada")
