@@ -1,7 +1,8 @@
 import fetch from "node-fetch"
+import * as XLSX from "xlsx"
 
 const EXCEL_URL =
-  "https://copacabanagov-my.sharepoint.com/personal/lina_restrepo_copacabana_gov_co/_layouts/15/download.aspx?share=EcN3KQaGqONKswGD3lLdGFQBv2VbOX9bGh-2CDHTFzPbsA"
+  "https://copacabanagov-my.sharepoint.com/:x:/g/personal/lina_restrepo_copacabana_gov_co/EcN3KQaGqONKswGD3lLdGFQBroFfNhq8g5p5Z21ztmhBhQ?e=59bjaD"
 
 export default async function handler(req, res) {
   console.log("🚀 API consulta_radicado iniciada")
@@ -21,6 +22,7 @@ export default async function handler(req, res) {
     "http://127.0.0.1:5500",
     "http://localhost:5502",
     "http://127.0.0.1:5502",
+
   ]
 
   const origin = req.headers.origin
@@ -68,9 +70,6 @@ export default async function handler(req, res) {
     console.log(`🔍 Consultando radicado: ${radicado} desde origen: ${origin}`)
     console.log(`📡 URL de SharePoint: ${EXCEL_URL.substring(0, 50)}...`)
 
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 25000)
-
     const response = await fetch(EXCEL_URL, {
       method: "GET",
       headers: {
@@ -81,10 +80,8 @@ export default async function handler(req, res) {
         "Cache-Control": "no-cache",
         Pragma: "no-cache",
       },
-      signal: controller.signal, // Usar signal en lugar de timeout
+      timeout: 25000,
     })
-
-    clearTimeout(timeoutId) // Limpiar timeout si la request fue exitosa
 
     if (!response.ok) {
       console.error(`❌ Error al descargar archivo: ${response.status} ${response.statusText}`)
@@ -104,7 +101,6 @@ export default async function handler(req, res) {
 
     console.log(`📊 Procesando archivo Excel de ${data.length} bytes`)
 
-    const XLSX = await import("xlsx")
     const workbook = XLSX.read(data, { type: "array" })
     console.log(`📋 Hojas disponibles: ${workbook.SheetNames.join(", ")}`)
 
@@ -177,10 +173,7 @@ export default async function handler(req, res) {
     let errorMessage = "Error interno del servidor"
     let errorCode = 500
 
-    if (error.name === "AbortError") {
-      errorMessage = "Timeout al consultar SharePoint - La consulta tardó demasiado"
-      errorCode = 504
-    } else if (error.name === "TypeError" && error.message.includes("fetch")) {
+    if (error.name === "TypeError" && error.message.includes("fetch")) {
       errorMessage = "Error de conexión con SharePoint"
       errorCode = 503
     } else if (error.message.includes("timeout")) {
