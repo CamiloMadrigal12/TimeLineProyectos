@@ -1,193 +1,180 @@
-import fetch from "node-fetch";
-import * as XLSX from "xlsx";
+import fetch from "node-fetch"
+import * as XLSX from "xlsx"
 
-/* ====== CORS ====== */
-const ALLOWED_ORIGINS = [
-  "https://sistemainformaciondap.netlify.app",
-  "https://time-line-proyectos-lyart.vercel.app",
-  "https://time-line-proyectos-git-master-camilomadrigal12s-projects.vercel.app",
-  "https://time-line-proyectos-ten.vercel.app",
-  "http://localhost:3000",
-  "http://127.0.0.1:3000",
-  "http://localhost:5500",
-  "http://127.0.0.1:5500",
-  "http://localhost:5502",
-  "http://127.0.0.1:5502",
-];
-function setCORS(req, res) {
-  const origin = req.headers.origin;
-  const allowOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : "*";
-  res.setHeader("Access-Control-Allow-Origin", allowOrigin);
-  res.setHeader("Vary", "Origin");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  if (allowOrigin !== "*") res.setHeader("Access-Control-Allow-Credentials", "true");
-}
+const EXCEL_URL_LICENCIAS =
+  "https://copacabanagov-my.sharepoint.com/personal/lina_restrepo_copacabana_gov_co/_layouts/15/download.aspx?share=EUXjiKzG-KBHk1vCi7GxfaoBMs44rkLEsJtkmtCYOcFV_Q"
 
-/* ====== Auth a Graph ====== */
-async function getGraphToken() {
-  const tenant = process.env.GRAPH_TENANT_ID;
-  const clientId = process.env.GRAPH_CLIENT_ID;
-  const secret = process.env.GRAPH_CLIENT_SECRET;
-
-  const form = new URLSearchParams();
-  form.set("client_id", clientId);
-  form.set("client_secret", secret);
-  form.set("grant_type", "client_credentials");
-  form.set("scope", "https://graph.microsoft.com/.default");
-
-  const resp = await fetch(`https://login.microsoftonline.com/${tenant}/oauth2/v2.0/token`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: form.toString(),
-  });
-  if (!resp.ok) {
-    const t = await resp.text().catch(() => "");
-    throw new Error(`Token Graph fallo: HTTP ${resp.status} ${resp.statusText} ${t}`);
-  }
-  const json = await resp.json();
-  return json.access_token;
-}
-
-/* ====== Localizar el archivo en Graph ======
-   Opción A: DRIVE_ID + ITEM_ID
-   Opción B: SHARE_LINK -> driveItem (usando /shares)
-*/
-async function getDownloadUrl(token) {
-  const shareLink = process.env.GRAPH_SHARE_LINK; // opcional
-  if (shareLink) {
-    // codificación especial "u!" + base64 de la URL
-    const b64 = Buffer.from(shareLink, "utf8").toString("base64").replace(/=+$/g, "");
-    const encoded = `u!${b64}`;
-    const resp = await fetch(`https://graph.microsoft.com/v1.0/shares/${encoded}/driveItem`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!resp.ok) {
-      const t = await resp.text().catch(() => "");
-      throw new Error(`shares/driveItem fallo: HTTP ${resp.status} ${resp.statusText} ${t}`);
-    }
-    const item = await resp.json();
-    // endpoint de contenido del archivo
-    return `https://graph.microsoft.com/v1.0/drives/${item.parentReference.driveId}/items/${item.id}/content`;
-  }
-
-  // Opción A: ids directos
-  const driveId = process.env.GRAPH_DRIVE_ID;
-  const itemId = process.env.GRAPH_ITEM_ID;
-  if (!driveId || !itemId) throw new Error("Falta GRAPH_DRIVE_ID o GRAPH_ITEM_ID o GRAPH_SHARE_LINK");
-  return `https://graph.microsoft.com/v1.0/drives/${driveId}/items/${itemId}/content`;
-}
-
-/* ====== Utilidades ====== */
-function normalizeLic(val) {
-  return String(val ?? "")
-    .normalize("NFKD")
-    .replace(/[\u2010-\u2015\u2212]/g, "-")
-    .replace(/\s+/g, "")
-    .toUpperCase();
-}
-
-/* ====== Handler ====== */
 export default async function handler(req, res) {
-  setCORS(req, res);
-  if (req.method === "OPTIONS") return res.status(204).end();
-  if (req.method !== "POST") return res.status(405).json({ error: "Método no permitido", allowedMethods: ["POST"] });
+  const allowedOrigins = [
+    "https://sistemainformaciondap.netlify.app",
+    "https://time-line-proyectos-lyart.vercel.app",
+    "https://time-line-proyectos-git-master-camilomadrigal12s-projects.vercel.app",
+    "https://time-line-proyectos-ten.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+    "http://localhost:5502",
+    "http://127.0.0.1:5502",
+  ]
 
-  const { licencia } = req.body || {};
-  if (!licencia) return res.status(400).json({ error: "No se recibió número de licencia", required: "licencia" });
+  const origin = req.headers.origin
 
-  const target = normalizeLic(licencia);
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin)
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "*")
+  }
+
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS, GET")
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+  res.setHeader("Access-Control-Allow-Credentials", "true")
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end()
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).json({
+      error: "Método no permitido",
+      allowedMethods: ["POST"],
+    })
+  }
+
+  const { licencia } = req.body
+
+  if (!licencia) {
+    return res.status(400).json({
+      error: "No se recibió número de licencia",
+      required: "licencia",
+    })
+  }
 
   try {
-    // 1) Token y URL de descarga interna (sin público)
-    const token = await getGraphToken();
-    const fileUrl = await getDownloadUrl(token);
-
-    // 2) Descargar binario XLSX desde Graph
-    const resp = await fetch(fileUrl, {
+    const response = await fetch(EXCEL_URL_LICENCIAS, {
+      method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
-        "Accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        Accept: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,*/*",
+        "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
       },
-      // @ts-ignore node-fetch v2
-      timeout: 30000,
-      redirect: "follow",
-    });
-    if (!resp.ok) {
-      const t = await resp.text().catch(() => "");
-      return res.status(resp.status || 502).json({
-        error: "No se pudo leer el archivo desde Graph",
-        details: `HTTP ${resp.status} ${resp.statusText}`,
-        sample: t.slice(0, 300),
-      });
+      timeout: 25000,
+    })
+
+    if (!response.ok) {
+      console.error(`Error al descargar archivo: ${response.status} ${response.statusText}`)
+      return res.status(500).json({
+        error: "No se pudo descargar el archivo desde SharePoint",
+        details: `HTTP ${response.status}: ${response.statusText}`,
+        suggestion: "Verifica que el enlace de SharePoint sea válido y esté accesible",
+      })
     }
 
-    const buf = Buffer.from(await resp.arrayBuffer());
-    const wb = XLSX.read(buf, { type: "buffer" });
+    const arrayBuffer = await response.arrayBuffer()
+    const data = new Uint8Array(arrayBuffer)
 
-    // Hojas preferidas; si cambian los nombres igual usamos todas
-    const preferidas = wb.SheetNames.filter((n) => /2024|2025/i.test(n));
-    const hojas = preferidas.length ? preferidas : wb.SheetNames;
+    const workbook = XLSX.read(data, { type: "array" })
 
-    let resultados = [];
-    let total = 0;
+    // Buscar hojas que contengan 2024 o 2025 en el nombre
+    const hojasDisponibles = workbook.SheetNames.filter((nombre) => nombre.includes("2024") || nombre.includes("2025"))
 
-    for (const sheetName of hojas) {
-      const ws = wb.Sheets[sheetName];
-      if (!ws) continue;
-      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "", raw: false });
-      const limpias = rows.filter((r) => Array.isArray(r) && r.some((c) => String(c).trim() !== ""));
-      total += limpias.length;
+    // Si no encontramos hojas específicas, usar las que encontramos
+    const hojas = hojasDisponibles.length > 0 ? hojasDisponibles : ["2025", "2024"]
 
-      for (const r of limpias) {
-        const rdo = normalizeLic(r[0] ?? ""); // Columna A = RDO/Nro Licencia
-        if (rdo === target) {
-          resultados.push({
-            RDO: r[0] ?? "",
-            F_L_REV: r[38] ?? "", // AM
-            ESTADO: r[39] ?? "",  // AN
-            HOJA: sheetName,
-          });
-        }
+    let resultados = []
+    let totalFilasProcesadas = 0
+
+    for (const nombreHoja of hojas) {
+      const worksheet = workbook.Sheets[nombreHoja]
+      if (!worksheet) {
+        continue
+      }
+
+      const arrayData = XLSX.utils.sheet_to_json(worksheet, {
+        header: 1, // Usar números como encabezados (array de arrays)
+        defval: "",
+        raw: false,
+      })
+
+      const dataFiltrada = arrayData.filter(
+        (row) => row && row.length > 0 && row.some((cell) => cell && cell.toString().trim() !== ""),
+      )
+
+      totalFilasProcesadas += dataFiltrada.length
+
+      const filtrados = dataFiltrada.filter((row) => {
+        if (!row || row.length === 0) return false
+
+        const licenciaRow = String(row[0] || "").trim() // Columna A (posición 0)
+        const licenciaBuscar = String(licencia).trim()
+
+        return licenciaRow === licenciaBuscar
+      })
+
+      if (filtrados.length > 0) {
+        const resultadosFormateados = filtrados.map((row) => ({
+          RDO: row[0] || "", // Columna A
+          "F.L. REV.": row[38] || "", // Columna AM
+          ESTADO: row[39] || "", // Columna AN
+          HOJA: nombreHoja,
+        }))
+
+        resultados = resultados.concat(resultadosFormateados)
       }
     }
 
-    if (!resultados.length) {
+    if (resultados.length === 0) {
       return res.status(404).json({
         mensaje: "No se encontró la licencia",
         licenciaBuscada: licencia,
-        licenciaNormalizada: target,
         hojasConsultadas: hojas,
-        totalFilasProcesadas: total,
-      });
+        totalFilasProcesadas,
+      })
     }
 
     const datos = resultados.map((r) => ({
-      LICENCIA: r.RDO,
-      ESTADO: r.ESTADO,
-      FECHA_DE_VENCIMIENTO: r.F_L_REV,
-      HOJA: r.HOJA,
-      ANO: /2025/.test(r.HOJA) ? "2025" : /2024/.test(r.HOJA) ? "2024" : "",
-    }));
+      LICENCIA: r["RDO"] || "",
+      ESTADO: r["ESTADO"] || "",
+      FECHA_DE_VENCIMIENTO: r["F.L. REV."] || "",
+      HOJA: r.HOJA || "",
+      ANO: r.HOJA
+        ? r.HOJA.includes("2025")
+          ? "2025"
+          : r.HOJA.includes("2024")
+            ? "2024"
+            : new Date().getFullYear().toString()
+        : new Date().getFullYear().toString(),
+    }))
 
     return res.status(200).json({
       datos,
       encontrado: true,
       totalResultados: datos.length,
       timestamp: new Date().toISOString(),
-      tipo: "licencia",
-    });
-  } catch (e) {
-    const msg = String(e?.message || e);
-    const code = /timeout/i.test(msg) ? 504
-               : /ENOTFOUND|ECONNRESET|EAI_AGAIN/i.test(msg) ? 503
-               : 500;
-    return res.status(code).json({
-      error: code === 504 ? "Timeout al consultar Graph"
-           : code === 503 ? "Error de conexión con Graph"
-           : "Error interno del servidor",
-      details: msg,
+      tipo: "licencia", // Identificador para el frontend
+    })
+  } catch (error) {
+    console.error("Error en consulta_licencia:", error)
+
+    let errorMessage = "Error interno del servidor"
+    let errorCode = 500
+
+    if (error.name === "TypeError" && error.message.includes("fetch")) {
+      errorMessage = "Error de conexión con SharePoint"
+      errorCode = 503
+    } else if (error.message.includes("timeout")) {
+      errorMessage = "Timeout al consultar SharePoint"
+      errorCode = 504
+    }
+
+    return res.status(errorCode).json({
+      error: errorMessage,
+      details: error.message,
       timestamp: new Date().toISOString(),
-    });
+      suggestion: "Intenta nuevamente en unos momentos",
+    })
   }
 }
