@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAP</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+      background-color: #0078d4;
+      color: #fff;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+      vertical-align: middle;
+    }
+
+    .progress-bar-container {
+      position: relative;
+      width: 100%;
+      background-color: #e0e0e0;
+      height: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background-color: #28a745;
+      width: 0%;
+      transition: width 0.8s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 5px;
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Navbar */
+    .navbar-brand img {
+      height: 50px;
+      margin-right: 10px;
+    }
+
+    .navbar-nav {
+      margin: auto;
+    }
+
+    .navbar {
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      padding: 10px 20px;
+    }
+
+    .navbar-nav a:hover {
+      background: #0056b3;
+    }
+    
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <div id="header"></div>
+
+  <!-- Tabla de Proyectos -->
+  <div class="container">
+    <h1>Cierre Plan de Desarrollo 2024</h1>
+    <table id="projectsTable">
+      <thead>
+        <tr>
+          <th>Dependencia</th>
+          <th>Cierre 2024</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td><a href="#">Departamento Administrativo de Planeación</a></td>
+            <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="24%">24%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Secretaría de Salud</a></td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="25%">25%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Secretaría de Agricultura y Medio Ambiente</a></td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="24%">24%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Secretaría de Gobierno</a></td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="23%">23%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Secretaría de Servicios Administrativos</a></td>
+            <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="25%">  25%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Oficina de Comunicaciones</a></td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="23%">23%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Secretaría de Movilidad</a></td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="21%">21%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Secretaría de Hacienda</a></td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="25%">25%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Secretaría de Infraestructura   </a>         </td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="9%">9%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Secretaría de Educación y Cultura</a></td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="13%">13%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Invicop    </a>        </td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="19%">19%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">INDER</a></td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="24%">24%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+            <td><a href="#">Secretaría de Desarrollo y Bienestar Social</a></td>
+          <td>
+            <div class="progress-bar-container">
+              <div class="progress" data-percentage="25%">25%</div>
+            </div>
+          </td>
+          
+        </tr>
+        <tr>
+          <td>Promedio Sin Ponderar</td>
+        <td>
+          <div class="progress-bar-container">
+            <div class="progress" data-percentage="22%">22%</div>
+          </div>
+        </td>
+       
+      </tr>
+      <tr>
+        <td>Desviación</td>
+      <td>
+        <div class="progress-bar-container">
+          <div class="progress" data-percentage="5%">     5%</div>
+        </div>
+      </td>
+      
+    </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // --- Carga dinámica del header ---
+      let repoName = "/TimeLineProyectos";
+      let path = window.location.pathname;
+      let relativePath = path.startsWith(repoName) ? path.replace(repoName, "") : path;
+      let rootPages = ["/", "/index.html", "/embudo.html", "/formulacion.html", "/formulados.html", "/mapa.html", "/pilares.html", "/planDesarrollo.html", "/ProyectosPensados.html", "/radicados.html", "/timeLine.html"];
+      let isRoot = rootPages.includes(relativePath);
+      let depth = isRoot ? 0 : relativePath.split("/").length - 2;
+      let prefix = depth > 0 ? "../".repeat(depth) : "";
+      let headerPath = "https://camilomadrigal12.github.io/TimeLineProyectos/header.html";
+  
+      fetch(headerPath)
+        .then(response => {
+          if (!response.ok) throw new Error("No se pudo cargar el header. Verifica la ruta.");
+          return response.text();
+        })
+        .then(data => {
+          document.getElementById("header").innerHTML = data;
+  
+          setTimeout(() => {
+            let logo = document.querySelector("#header #logo");
+            if (logo) {
+              logo.src = prefix + logo.getAttribute("data-src");
+            }
+            let links = document.querySelectorAll("#header a[data-href]");
+            links.forEach(link => {
+              let newHref = isRoot ? link.getAttribute("data-href") : prefix + link.getAttribute("data-href");
+              link.setAttribute("href", newHref);
+            });
+          });
+        })
+        .catch(error => console.error("Error cargando el header:", error));
+  
+      // --- Animación de barras de progreso ---
+      const progresses = document.querySelectorAll('.progress');
+      progresses.forEach(progress => {
+        const percentage = progress.getAttribute('data-percentage');
+        const value = parseInt(percentage);
+  
+        progress.style.width = '0%';
+        progress.textContent = '';
+  
+        setTimeout(() => {
+          progress.style.width = percentage;
+  
+          // Si el valor es muy pequeño, mostrar el texto fuera de la barra
+          if (value <= 10) {
+            const container = progress.parentElement;
+            const label = document.createElement('div');
+            label.textContent = percentage;
+            label.style.position = 'absolute';
+            label.style.left = '5px';
+            label.style.top = '0';
+            label.style.height = '100%';
+            label.style.display = 'flex';
+            label.style.alignItems = 'center';
+            label.style.fontSize = '12px';
+            label.style.fontWeight = 'bold';
+            label.style.color = '#333';
+            container.appendChild(label);
+          } else {
+            progress.textContent = percentage;
+          }
+        }, 300);
+      });
+    });
+  </script>
+
+</body>
+</html>
