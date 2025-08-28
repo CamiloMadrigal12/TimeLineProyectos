@@ -78,20 +78,49 @@ export default async function handler(req, res) {
 
     const workbook = XLSX.read(data, { type: "array" })
 
-    // Buscar hojas que contengan 2024 o 2025 en el nombre
-    const hojasDisponibles = workbook.SheetNames.filter((nombre) => nombre.includes("2024") || nombre.includes("Hoja1"))
+    console.log("Hojas disponibles en el Excel:", workbook.SheetNames)
 
-    // Si no encontramos hojas específicas, usar las que encontramos
-    const hojas = hojasDisponibles.length > 0 ? hojasDisponibles : ["Hoja1", "2024"]
+    // Buscar hojas que contengan 2024 o 2025 en el nombre (más flexible)
+    const hojasDisponibles = workbook.SheetNames.filter(
+      (nombre) => nombre.toLowerCase().includes("2024") || nombre.toLowerCase().includes("2025"),
+    )
+
+    console.log("Hojas filtradas que contienen 2024 o 2025:", hojasDisponibles)
+
+    // y ser más flexible con los nombres de hojas
+    let hojas = []
+    if (hojasDisponibles.length > 0) {
+      hojas = hojasDisponibles.sort() // Ordenar alfabéticamente (2024 antes que 2025)
+    } else {
+      // Buscar hojas que puedan tener nombres diferentes
+      const posiblesHojas2024 = workbook.SheetNames.filter((nombre) => nombre.includes("2024") || nombre.includes("24"))
+      const posiblesHojas2025 = workbook.SheetNames.filter((nombre) => nombre.includes("2025") || nombre.includes("25"))
+      hojas = [...posiblesHojas2024, ...posiblesHojas2025]
+
+      // Si aún no encuentra nada, usar nombres por defecto
+      if (hojas.length === 0) {
+        hojas = ["2024", "2025"]
+      }
+    }
+
+    console.log("Hojas que se van a procesar:", hojas)
 
     let resultados = []
     let totalFilasProcesadas = 0
+    const hojasEncontradas = []
+    const hojasNoEncontradas = []
 
     for (const nombreHoja of hojas) {
+      console.log(`Procesando hoja: ${nombreHoja}`)
+
       const worksheet = workbook.Sheets[nombreHoja]
       if (!worksheet) {
+        console.log(`Hoja ${nombreHoja} no encontrada`)
+        hojasNoEncontradas.push(nombreHoja)
         continue
       }
+
+      hojasEncontradas.push(nombreHoja)
 
       const arrayData = XLSX.utils.sheet_to_json(worksheet, {
         header: 1, // Usar números como encabezados (array de arrays)
@@ -104,6 +133,7 @@ export default async function handler(req, res) {
       )
 
       totalFilasProcesadas += dataFiltrada.length
+      console.log(`Filas procesadas en ${nombreHoja}: ${dataFiltrada.length}`)
 
       const filtrados = dataFiltrada.filter((row) => {
         if (!row || row.length === 0) return false
@@ -113,6 +143,8 @@ export default async function handler(req, res) {
 
         return licenciaRow === licenciaBuscar
       })
+
+      console.log(`Registros encontrados en ${nombreHoja}: ${filtrados.length}`)
 
       if (filtrados.length > 0) {
         const resultadosFormateados = filtrados.map((row) => ({
@@ -131,7 +163,12 @@ export default async function handler(req, res) {
         mensaje: "No se encontró la licencia",
         licenciaBuscada: licencia,
         hojasConsultadas: hojas,
+        hojasEncontradas,
+        hojasNoEncontradas,
         totalFilasProcesadas,
+        debug: {
+          todasLasHojasDisponibles: workbook.SheetNames,
+        },
       })
     }
 
@@ -141,8 +178,8 @@ export default async function handler(req, res) {
       FECHA_DE_VENCIMIENTO: r["F.L. REV."] || "",
       HOJA: r.HOJA || "",
       ANO: r.HOJA
-        ? r.HOJA.includes("Hoja1")
-          ? "Hoja1"
+        ? r.HOJA.includes("2025")
+          ? "2025"
           : r.HOJA.includes("2024")
             ? "2024"
             : new Date().getFullYear().toString()
@@ -154,7 +191,12 @@ export default async function handler(req, res) {
       encontrado: true,
       totalResultados: datos.length,
       timestamp: new Date().toISOString(),
-      tipo: "licencia", // Identificador para el frontend
+      tipo: "licencia",
+      debug: {
+        hojasEncontradas,
+        hojasNoEncontradas,
+        totalFilasProcesadas,
+      },
     })
   } catch (error) {
     console.error("Error en consulta_licencia:", error)
