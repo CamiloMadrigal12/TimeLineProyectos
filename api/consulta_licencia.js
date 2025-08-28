@@ -79,10 +79,10 @@ export default async function handler(req, res) {
     const workbook = XLSX.read(data, { type: "array" })
 
     // Buscar hojas que contengan 2024 o 2025 en el nombre
-    const hojasDisponibles = workbook.SheetNames.filter((nombre) => nombre.includes("2024") || nombre.includes("2025"))
+    const hojasDisponibles = workbook.SheetNames.filter((nombre) => nombre.includes("2024") || nombre.includes("Hoja1"))
 
     // Si no encontramos hojas específicas, usar las que encontramos
-    const hojas = hojasDisponibles.length > 0 ? hojasDisponibles : ["2025", "2024"]
+    const hojas = hojasDisponibles.length > 0 ? hojasDisponibles : ["Hoja1", "2024"]
 
     let resultados = []
     let totalFilasProcesadas = 0
