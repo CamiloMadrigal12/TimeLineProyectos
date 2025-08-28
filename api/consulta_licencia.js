@@ -150,7 +150,7 @@ export default async function handler(req, res) {
         const resultadosFormateados = filtrados.map((row) => ({
           RDO: row[0] || "", // Columna A
           "F.L. REV.": row[38] || "", // Columna AM
-          ESTADO: row[39] || "", // Columna AN
+          ESTADO: row[61] || "", // Columna BJ
           HOJA: nombreHoja,
         }))
 
