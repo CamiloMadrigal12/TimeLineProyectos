@@ -141,7 +141,7 @@ export default async function handler(req, res) {
       FECHA_DE_VENCIMIENTO: r["F.L. REV."] || "",
       HOJA: r.HOJA || "",
       ANO: r.HOJA
-        ? r.HOJA.includes("2025")
+        ? r.HOJA.includes("Hoja1")
           ? "2025"
           : r.HOJA.includes("2024")
             ? "2024"
