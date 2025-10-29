@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mapa de Copacabana-Sisbenizados</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f4f4f9; }
+    .navbar-brand img { height: 80px; }
+    .navbar { padding: 10px 20px; }
+    .navbar-nav { text-align: center; }
+    #map { width: 100%; height: 500px; margin-top: 20px; border-radius: 10px; border: 1px solid #ddd; }
+    @media (max-width: 768px) { .navbar-brand img { height: 60px; } }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div id="header"></div>
+
+  <div class="container mt-4">
+    <h2 class="text-center">Mapa de Copacabana-Sisbenizados</h2>
+    <div id="map"></div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <script>
+    // Inicializar mapa
+    var map = L.map("map").setView([6.350, -75.500], 14);
+
+    // Base OSM
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "© OpenStreetMap contributors"
+    }).addTo(map);
+
+    // Capas
+    var barriosLayer = L.featureGroup().addTo(map);
+    var veredasLayer = L.featureGroup().addTo(map);
+
+    // Estilos (estáticos)
+    function estiloBarrios() { return { color: "blue",  weight: 2, fillOpacity: 0.4 }; }
+    function estiloVeredas() { return { color: "green", weight: 2, fillOpacity: 0.4 }; }
+
+    // ---- Helpers ----
+    function getEncuestas(props = {}) {
+      const raw =
+        props["Encuestas Realizadas"] ??
+        props.encuestas ??
+        props.encuestas_realizadas ??
+        props.Encuestas ??
+        props.ENCUESTAS ?? 0;
+
+      const n = Number(String(raw).replace(/[^0-9.-]/g, ""));
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function getNombre(props = {}) {
+      return props.nombre ?? props.name ?? "Sin nombre";
+    }
+
+    // Hover
+    function agregarEventosHover(layer, estiloOriginal) {
+      var estiloGuardado = JSON.parse(JSON.stringify(estiloOriginal()));
+      layer.on("mouseover", function () {
+        this.setStyle({ weight: 4, color: "yellow", fillOpacity: 0.6 });
+        this.bringToFront();
+      });
+      layer.on("mouseout", function () {
+        this.setStyle(estiloGuardado);
+      });
+    }
+
+    // Popup BARRIOS (corrige "Encuestas Realizadas")
+    function eventosBarrios(feature, layer) {
+      var props = feature.properties || {};
+      var popupContent = `
+        <b>Nombre:</b> ${getNombre(props)}<br>
+        <b>Encuestas Realizadas:</b> ${getEncuestas(props)}<br>
+        
+      `;
+      layer.bindPopup(popupContent);
+      agregarEventosHover(layer, estiloBarrios);
+    }
+
+    // Popup VEREDAS
+    function eventosVeredas(feature, layer) {
+      var props = feature.properties || {};
+      var popupContent = `
+        <b>Nombre:</b> ${getNombre(props)}<br>
+        <b>Encuestas Realizadas:</b> ${getEncuestas(props)}<br>
+        
+      `;
+      layer.bindPopup(popupContent);
+      agregarEventosHover(layer, estiloVeredas);
+    }
+
+    // Cargar GeoJSON
+    function cargarGeoJSON(url, estilo, capa, eventosCallback) {
+      fetch(url)
+        .then(response => {
+          if (!response.ok) throw new Error(`No se pudo cargar ${url}`);
+          return response.json();
+        })
+        .then(data => {
+          L.geoJSON(data, {
+            style: estilo,
+            onEachFeature: eventosCallback
+          }).addTo(capa);
+
+          // Ajustar vista cuando ambas capas tengan algo
+          const b = barriosLayer.getBounds();
+          const v = veredasLayer.getBounds();
+          if (b.isValid() && v.isValid()) {
+            map.fitBounds(b.extend(v));
+          } else if (b.isValid()) {
+            map.fitBounds(b);
+          } else if (v.isValid()) {
+            map.fitBounds(v);
+          }
+        })
+        .catch(error => console.error(`Error cargando ${url}:`, error));
+    }
+
+    // Cargar capas
+    cargarGeoJSON("barriosS.geojson", estiloBarrios, barriosLayer, eventosBarrios);
+    cargarGeoJSON("veredasS.geojson",  estiloVeredas, veredasLayer, eventosVeredas);
+
+    // Control de capas
+    L.control.layers(null, { "Barrios": barriosLayer, "Veredas": veredasLayer }, { collapsed: false }).addTo(map);
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let repoName = "/TimeLineProyectos";
+      let path = window.location.pathname;
+
+      let relativePath = path.startsWith(repoName) ? path.replace(repoName, "") : path;
+
+      let rootPages = ["/","/index.html","/embudo.html","/formulacion.html","/formulados.html","/mapa.html","/pilares.html","/planDesarrollo.html","/ProyectosPensados.html","/radicados.html","/timeLine.html"];
+      let isRoot = rootPages.includes(relativePath);
+
+      let depth = isRoot ? 0 : relativePath.split("/").length - 2;
+      let prefix = depth > 0 ? "../".repeat(depth) : "";
+
+      let headerPath = "https://camilomadrigal12.github.io/TimeLineProyectos/header.html";
+
+      fetch(headerPath)
+        .then(r => { if (!r.ok) throw new Error("No se pudo cargar el header."); return r.text(); })
+        .then(html => {
+          document.getElementById("header").innerHTML = html;
+          setTimeout(() => {
+            let logo = document.querySelector("#header #logo");
+            if (logo) logo.src = prefix + logo.getAttribute("data-src");
+            document.querySelectorAll("#header a[data-href]").forEach(link => {
+              link.setAttribute("href", isRoot ? link.getAttribute("data-href") : prefix + link.getAttribute("data-href"));
+            });
+          });
+        })
+        .catch(err => console.error("Error cargando el header:", err));
+    });
+  </script>
+</body>
+</html>
